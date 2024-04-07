@@ -25,6 +25,9 @@ namespace CTP
         //Po kliknieciu przycisku file picker od MC zwraca nam sciezke do pliku
         private void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
+
+            var file_reader_inst = new FileReader();
+
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.FileName = "NULL_PATH"; // Default file name
             dialog.DefaultExt = ".txt"; // Default file extension
@@ -43,36 +46,8 @@ namespace CTP
 
                 FilePathDisplay.Content = filename;
 
-                FileContentDisplay.Content = get_file_content(filename);
-
-                //filePathDisplay.Content = filename;
+                FileContentDisplay.Content = file_reader_inst.GetFileContent(filename);
             }
-        }
-
-        //Funkcja zwraca nam string z trescia pliku, akceptuje sciezke jako argument
-        private string get_file_content(string s_file_path)
-        {
-            string filename = s_file_path;
-            char[] result;
-            StringBuilder builder = new StringBuilder();
-
-            using (StreamReader reader = File.OpenText(filename))
-            {
-                result = new char[reader.BaseStream.Length];
-                //reader.ReadAsync(result, 0, (int)reader.BaseStream.Length);
-                reader.Read(result, 0, (int)reader.BaseStream.Length);
-            }
-
-            foreach (char c in result)
-            {
-                if (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c))
-                {
-                    builder.Append(c);
-                }
-            }
-            //FileOutput.Text = builder.ToString();
-            Console.WriteLine(builder.ToString());
-            return builder.ToString();
         }
     }
 }
