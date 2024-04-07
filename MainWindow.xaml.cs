@@ -21,8 +21,6 @@ namespace CTP
             InitializeComponent();
         }
 
-        // Po kliknieciu dostajemy sciezke do wybranego pliku i jego zawartosc
-        // Ewentualnie zostanie 
         private void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
             
