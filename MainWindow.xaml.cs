@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using CTP.core;
+using System.Diagnostics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -23,10 +25,10 @@ namespace CTP
 
         private void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
-            
             string FilePath = FilePicker.GetFilePath();
-
             string FileContentRaw = FilePicker.GetFileContent(FilePath);
+            Parser parser = new(FileContentRaw);
+            Trace.WriteLine(String.Join(", ", parser.GetColumnValues(1)));
         }
     }
 }
