@@ -60,10 +60,10 @@ namespace CTP
 
             foreach (char c in result)
             {
-                if (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c))
-                {
-                    builder.Append(c);
-                }
+                //if (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c))
+                //{
+                builder.Append(c);
+                //}
             }
             //FileOutput.Text = builder.ToString();
             //Console.WriteLine(builder.ToString());
