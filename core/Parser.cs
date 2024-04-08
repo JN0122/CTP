@@ -7,6 +7,9 @@ namespace CTP.core
     {
         private readonly DataTable _datatable;
 
+        ///<summary>
+        /// Automatycznie wykrywa czy plik posiada nagłówek, tworzy obiekt DataTable z wartościami typu double.
+        ///</summary>
         public Parser(string fileContent)
         {
             List<string> lines = new(fileContent.Replace(',', '.').Split("\r\n"));
@@ -30,6 +33,9 @@ namespace CTP.core
             }
         }
 
+        ///<summary>
+        /// Sprawdza czy string można przekonwertować do typu double.
+        ///</summary>
         private static bool IsDouble(string field)
         {
             try
@@ -44,6 +50,9 @@ namespace CTP.core
             }
         }
 
+        ///<summary>
+        /// Zwraca wartości w podanej kolumnie.
+        ///</summary>
         public List<double> GetColumnValues(int columnIndex)
         {
             List<double> values = new();
