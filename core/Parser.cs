@@ -26,7 +26,7 @@ namespace CTP.core
 
             for (int i = 0; i < lines.Count; i++)
             {
-                if (i == 0 && firtLineHeader) continue;
+                if ((i == 0 && firtLineHeader) || String.IsNullOrEmpty(lines[i])) continue;
                 DataRow datarow = _datatable.NewRow();
                 datarow.ItemArray = lines[i].Split(delimiter);
                 _datatable.Rows.Add(datarow);
