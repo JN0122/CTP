@@ -20,5 +20,13 @@ namespace CTP
         {
             InitializeComponent();
         }
+
+        private void FilePickerButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            string FilePath = FilePicker.GetFilePath();
+
+            string FileContentRaw = FilePicker.GetFileContent(FilePath);
+        }
     }
 }

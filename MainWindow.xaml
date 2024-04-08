@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:CTP"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TextBlock HorizontalAlignment="Center" Margin="0,204,0,0" TextWrapping="Wrap" Text="Tescior" VerticalAlignment="Top"/>
-
-    </Grid>
+    <StackPanel>
+        <Button x:Name="FilePickerButton" Content="Wybierz plik" Width="100" Click="FilePickerButton_Click"></Button>
+        <Label x:Name="FilePathDisplay" HorizontalAlignment="Center" Content=""></Label>
+        <Label x:Name="FileContentDisplay" HorizontalAlignment="Center" Content=""></Label>
+    </StackPanel>
 </Window>
