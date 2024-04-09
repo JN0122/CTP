@@ -1,4 +1,5 @@
 ﻿using CTP.core;
+using ViewModelsSamples.General.RealTime;
 using System.Diagnostics;
 using System.Text;
 using System.Windows;
@@ -30,5 +31,6 @@ namespace CTP
             Parser parser = new(FileContentRaw);
             Trace.WriteLine(String.Join(", ", parser.GetColumnValues(1)));
         }
+
     }
 }
