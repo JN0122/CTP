@@ -1,35 +1,38 @@
 ﻿using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace CTP.core
 {
     class Parser
     {
-        private readonly DataTable _datatable;
+        private readonly DataTable datatable;
+        private static readonly CultureInfo cultureInfo = new("pl-PL");
 
         ///<summary>
         /// Automatycznie wykrywa czy plik posiada nagłówek, tworzy obiekt DataTable z wartościami typu double.
         ///</summary>
         public Parser(string fileContent)
         {
-            List<string> lines = new(fileContent.Replace(',', '.').Split("\r\n"));
+            List<string> lines = new(fileContent.Split("\r\n"));
             char[] delimiter = { '\t', ';' };
-            _datatable = new DataTable();
+            datatable = new DataTable();
+            datatable.Locale = Parser.cultureInfo;
             List<string> columnHeaders = new(lines[0].Split(delimiter));
             bool firtLineHeader = !IsDouble(columnHeaders[0]);
 
             for (int i = 0; i < columnHeaders.Count; i++)
             {
-                if (firtLineHeader) _datatable.Columns.Add(columnHeaders[i], typeof(double));
-                else _datatable.Columns.Add($"Column{i}", typeof(double));
+                if (firtLineHeader) datatable.Columns.Add(columnHeaders[i], typeof(double));
+                else datatable.Columns.Add($"Column{i}", typeof(double));
             }
 
             for (int i = 0; i < lines.Count; i++)
             {
                 if ((i == 0 && firtLineHeader) || String.IsNullOrEmpty(lines[i])) continue;
-                DataRow datarow = _datatable.NewRow();
+                DataRow datarow = datatable.NewRow();
                 datarow.ItemArray = lines[i].Split(delimiter);
-                _datatable.Rows.Add(datarow);
+                datatable.Rows.Add(datarow);
             }
         }
 
@@ -40,7 +43,7 @@ namespace CTP.core
         {
             try
             {
-                double.Parse(field);
+                double.Parse(field, Parser.cultureInfo);
                 return true;
 
             }
@@ -56,7 +59,7 @@ namespace CTP.core
         public List<double> GetColumnValues(int columnIndex)
         {
             List<double> values = new();
-            foreach (DataRow row in _datatable.Rows)
+            foreach (DataRow row in datatable.Rows)
             {
                 values.Add((double)row[columnIndex]);
             }
@@ -65,7 +68,7 @@ namespace CTP.core
 
         public DataTable GetDataTable()
         {
-            return _datatable;
+            return datatable;
         }
     }
 }
