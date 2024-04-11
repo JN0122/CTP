@@ -1,4 +1,5 @@
 ﻿using CTP.core;
+using LineChart;
 using System.Diagnostics;
 using System.Text;
 using System.Windows;
@@ -23,12 +24,20 @@ namespace CTP
             InitializeComponent();
         }
 
-        private void FilePickerButton_Click(object sender, RoutedEventArgs e)
+        public void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
             string FilePath = FilePicker.GetFilePath();
             string FileContentRaw = FilePicker.GetFileContent(FilePath);
             Parser parser = new(FileContentRaw);
-            Trace.WriteLine(String.Join(", ", parser.GetColumnValues(1)));
+            List<double> _timeValues = parser.GetColumnValues(0);
+            List<double> _voltageValues = parser.GetColumnValues(1);
+
+            var vm = (ViewModel)DataContext;
+            vm._timeValues = _timeValues;
+            vm._voltageValues = _voltageValues;
+
+            Trace.WriteLine(String.Join(", ", _timeValues));
         }
+
     }
 }
