@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CTP
+namespace CTP.core
 {
     internal class FilePicker
     {
@@ -34,7 +34,8 @@ namespace CTP
         ///</summary>
         public static string GetFileContent(string path)
         {
-            if (String.IsNullOrEmpty(path)) {
+            if (string.IsNullOrEmpty(path))
+            {
                 throw new ArgumentException("Invalid path given to GetFileContent()");
             }
 
@@ -55,7 +56,7 @@ namespace CTP
             {
                 Console.WriteLine("Could not open or read the specified file");
                 Console.WriteLine(ex.Message);
-                return String.Empty;
+                return string.Empty;
             }
 
             foreach (char c in result)
