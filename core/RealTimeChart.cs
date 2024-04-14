@@ -16,7 +16,6 @@ public partial class ViewModel : ObservableObject
     private readonly List<DateTimePoint> _values2 = new();
     private readonly DateTimeAxis _customAxis;
     private readonly Measurements _data = Measurements.GetInstance();
-    private int _visibleElements = 250;
 
     public ViewModel()
     {
@@ -79,16 +78,14 @@ public partial class ViewModel : ObservableObject
             lock (Sync)
             {
                 _values1.Add(new DateTimePoint(DateTime.Now, _data.ReadValue(i)));
-                if (_values1.Count > _visibleElements) _values1.RemoveAt(0);
+                if (_values1.Count > 250) _values1.RemoveAt(0);
 
-                if (i % 4 == 0)
+                foreach (double? value in new List<double>() { _data.MaxValue, _data.MinValue })
                 {
-                    foreach (double? value in new List<double>() { _data.MaxValue, _data.MinValue })
-                    {
-                        _values2.Add(new DateTimePoint(DateTime.Now, value));
-                        if (_values2.Count > _visibleElements / 4) _values2.RemoveAt(0);
-                    }
+                    _values2.Add(new DateTimePoint(DateTime.Now, value));
+                    if (_values2.Count > 6) _values2.RemoveAt(0);
                 }
+
 
                 // we need to update the separators every time we add a new point 
                 _customAxis.CustomSeparators = GetSeparators();
