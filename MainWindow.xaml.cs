@@ -20,7 +20,7 @@ namespace CTP
             string FilePath = FilePicker.GetFilePath();
             string FileContentRaw = FilePicker.GetFileContent(FilePath);
 
-            Measurements data = Measurements.GetInstance();
+            Measurement data = Measurement.GetInstance();
             data.SetDataTable(Parser.Parse(FileContentRaw));
 
             /*Trace.WriteLine(String.Join(", ", _timeValues));*/

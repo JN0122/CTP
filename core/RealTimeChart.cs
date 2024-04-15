@@ -15,7 +15,7 @@ public partial class ViewModel : ObservableObject
     private readonly List<DateTimePoint> _values1 = new();
     private readonly List<DateTimePoint> _values2 = new();
     private readonly DateTimeAxis _customAxis;
-    private readonly Measurements _data = Measurements.GetInstance();
+    private readonly Measurement _data = Measurement.GetInstance();
 
     public ViewModel()
     {
