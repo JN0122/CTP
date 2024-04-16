@@ -21,7 +21,7 @@ namespace CTP
             string FileContentRaw = FilePicker.GetFileContent(FilePath);
 
             Measurements data = Measurements.GetInstance();
-            data.SetDataTable(Parser.Parse(FileContentRaw));
+            data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
 
             /*Trace.WriteLine(String.Join(", ", _timeValues));*/
         }
