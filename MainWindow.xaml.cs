@@ -19,9 +19,9 @@ namespace CTP
         {
             string FilePath = FilePicker.GetFilePath();
             string FileContentRaw = FilePicker.GetFileContent(FilePath);
-
-            Measurement data = Measurement.GetInstance();
-            data.SetDataTable(Parser.Parse(FileContentRaw));
+            
+            Measurements data = Measurements.GetInstance();
+            data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
 
             /*Trace.WriteLine(String.Join(", ", _timeValues));*/
         }
