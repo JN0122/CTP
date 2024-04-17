@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 namespace CTP.core
 {
-    public sealed class Measurements
+    public sealed class Measurement
     {
         private DataTable _table = new();
         public double MaxValue = 10;
         public double MinValue = 0;
 
-        
         public double MinTime = 0;
         public double MaxTime = 0;
 
@@ -23,11 +22,11 @@ namespace CTP.core
 
         public Measurements() { }
 
-        private static Measurements? _instance;
+        private static Measurement? _instance;
 
-        public static Measurements GetInstance()
+        public static Measurement GetInstance()
         {
-            _instance ??= new Measurements();
+            _instance ??= new Measurement();
             return _instance;
         }
 

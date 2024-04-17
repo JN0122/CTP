@@ -19,7 +19,7 @@ namespace CTP
         {
             string FilePath = FilePicker.GetFilePath();
             string FileContentRaw = FilePicker.GetFileContent(FilePath);
-
+            
             Measurements data = Measurements.GetInstance();
             data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
 
