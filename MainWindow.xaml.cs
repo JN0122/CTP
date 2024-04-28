@@ -26,5 +26,14 @@ namespace CTP
             /*Trace.WriteLine(String.Join(", ", _timeValues));*/
         }
 
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private void FilePDFButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
