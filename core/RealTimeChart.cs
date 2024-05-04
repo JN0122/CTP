@@ -14,6 +14,7 @@ public partial class ViewModel : ObservableObject
 {
     private readonly List<DateTimePoint> _values1 = new();
     private readonly List<DateTimePoint> _values2 = new();
+    private readonly List<DateTimePoint> _velocityValues = new();
     private readonly DateTimeAxis _customAxis;
 
     private readonly Measurements _data = Measurements.GetInstance();
@@ -27,6 +28,28 @@ public partial class ViewModel : ObservableObject
             new LineSeries<DateTimePoint>
             {
                 Values = _values1,
+                Fill = null,
+                GeometryFill = null,
+                GeometryStroke = null,
+
+            },
+            new LineSeries<DateTimePoint>
+            {
+                Values = _values2,
+                Fill = null,
+                GeometryFill = null,
+                Stroke = null,
+                GeometryStroke = null,
+                IsHoverable = false,
+                IsVisibleAtLegend = false,
+            }
+        };
+
+        VelocitySeries = new ObservableCollection<ISeries>
+        {
+            new LineSeries<DateTimePoint>
+            {
+                Values = _velocityValues,
                 Fill = null,
                 GeometryFill = null,
                 GeometryStroke = null,
@@ -58,6 +81,8 @@ public partial class ViewModel : ObservableObject
 
     public ObservableCollection<ISeries> Series { get; set; }
 
+    public ObservableCollection<ISeries> VelocitySeries { get; set; }
+
     public Axis[] XAxes { get; set; }
 
     public object Sync { get; } = new object();
@@ -82,6 +107,9 @@ public partial class ViewModel : ObservableObject
             {
                 _values1.Add(new DateTimePoint(DateTime.Now, _data.ReadValue(i)));
                 if (_values1.Count > 250) _values1.RemoveAt(0);
+
+                _velocityValues.Add(new DateTimePoint(DateTime.Now, _data.ReadVelocityValue(i)));
+                if (_velocityValues.Count > 250) _velocityValues.RemoveAt(0);
 
                 foreach (double? value in new List<double>() { _data.MaxValue, _data.MinValue })
                 {
