@@ -49,25 +49,19 @@ namespace CTP.core
             }
         }
 
-        /*public void SetVelocityDataTable(DataTable Table)
+        public double? ReadValue(int index, int col = 1)
         {
-            _table = Table;
+            if (_table == null || index >= AmtOfRows) return null;
 
-            AmtOfRows = ValueCount();
+            return _table.Rows[index].Field<double>(col);
+        }
 
-            MinTime = _table.Rows[1].Field<double>(0);
-            MaxTime = _table.Rows[AmtOfRows - 1].Field<double>(0);
+        public int ValueCount()
+        {
+            return _table.Rows.Count;
+        }
 
-            int i = 4;
-            foreach (DataRow Row in _table.Rows)
-            {
-                double value = CalculateVelocity(i);
-                i++;
-
-                if (value > MaxValue) MaxValue = value;
-                else if (value < MinValue) MinValue = value;
-            }
-        }*/
+        // Velocity values
         public double CalculateVelocity(int index)
         {
             double[] xValues = new double[10];
@@ -91,14 +85,7 @@ namespace CTP.core
                 offset++;
             }
 
-            return Reglinp.FitLine(xValues, yValues);
-        }
-
-        public double? ReadValue(int index, int col = 1)
-        {
-            if (_table == null || index >= AmtOfRows) return null;
-
-            return _table.Rows[index].Field<double>(col);
+            return Reglinp.FitLine(yValues, xValues);
         }
 
         public double? ReadVelocityValue(int index, int col = 1)
@@ -110,11 +97,6 @@ namespace CTP.core
                 return CalculateVelocity(index);
             }
             else return 0;
-        }
-
-        public int ValueCount()
-        {
-            return _table.Rows.Count;
         }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics.LinearRegression;
 
 namespace CTP.core
 {
@@ -10,33 +11,15 @@ namespace CTP.core
     {
         public static double FitLine(double[] x, double[] y)
         {
-            if (x.Length != y.Length)
-            {
-                throw new ArgumentException("x and y arrays must have the same length");
-            }
+            (double slope, double intercept) = SimpleRegression.Fit(x, y);
 
-            int n = x.Length;
-            double sumX = 0;
-            double sumY = 0;
-            double sumXY = 0;
-            double sumX2 = 0;
+            Tuple<double, double> regression = Tuple.Create(slope, intercept);
 
-            for (int i = 0; i < n; i++)
-            {
-                sumX += x[i];
-                sumY += y[i];
-                sumXY += x[i] * y[i];
-                sumX2 += x[i] * x[i];
-            }
+            double slopeValue = regression.Item1;
+            double interceptValue = regression.Item2;
 
-            // Calculate slope (m) and intercept (b)
-            double slope = (sumXY - sumX * sumY / n) / (sumX2 - sumX * sumX / n);
-            double intercept = (sumY - slope * sumX) / n;
-
-            System.Diagnostics.Trace.WriteLine($"Slope (m): {slope}");
-            System.Diagnostics.Trace.WriteLine($"Intercept (b): {intercept}");
-
-            return intercept;
+            return interceptValue; // interceptValue lub slopeValue idk xd
         }
+
     }
 }
