@@ -88,17 +88,54 @@ namespace CTP.core
             return Reglinp.FitLine(yValues, xValues);
         }
 
-        public double? ReadVelocityValue(int index, int col = 1)
+        public double? ReadVelocityValue(int index)
         {
             if (_table == null || index >= AmtOfRows) return null;
 
-            if (index >= 4 )
+            if (index >= 4)
             {
                 return CalculateVelocity(index);
             }
             else return 0;
         }
 
+        // Acceleration values
+        public double CalculateAcceleration(int index)
+        {
+            double[] xValues = new double[10];
+            double[] yValues = new double[10];
+
+            int offset = -4;
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (index + offset >= _table.Rows.Count)
+                {
+                    yValues[i] = 0;
+                    xValues[i] = 0;
+                }
+                else
+                {
+                    yValues[i] = _table.Rows[index + offset].Field<double>(0);
+                    xValues[i] = CalculateVelocity(index + offset);
+                }
+
+                offset++;
+            }
+
+            return Reglinp.FitLine(yValues, xValues);
+        }
+
+        public double? ReadAccelerationValue(int index)
+        {
+            if (_table == null || index >= AmtOfRows) return null;
+
+            if (index >= 9)
+            {
+                return CalculateAcceleration(index);
+            }
+            else return 100;
+        }
 
     }
 }

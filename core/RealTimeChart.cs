@@ -15,6 +15,7 @@ public partial class ViewModel : ObservableObject
     private readonly List<DateTimePoint> _values1 = new();
     private readonly List<DateTimePoint> _values2 = new();
     private readonly List<DateTimePoint> _velocityValues = new();
+    private readonly List<DateTimePoint> _accelerationValues = new();
     private readonly DateTimeAxis _customAxis;
 
     private readonly Measurements _data = Measurements.GetInstance();
@@ -67,11 +68,63 @@ public partial class ViewModel : ObservableObject
             }
         };
 
+        AccelerationSeries = new ObservableCollection<ISeries>
+        {
+            new LineSeries<DateTimePoint>
+            {
+                Values = _accelerationValues,
+                Fill = null,
+                GeometryFill = null,
+                GeometryStroke = null,
+
+            },
+            new LineSeries<DateTimePoint>
+            {
+                Values = _values2,
+                Fill = null,
+                GeometryFill = null,
+                Stroke = null,
+                GeometryStroke = null,
+                IsHoverable = false,
+                IsVisibleAtLegend = false,
+            }
+        };
+
+        YAxesDistance = new Axis[]
+        {
+            new Axis
+            {
+                Name = "x [mm]",
+                TextSize = 16
+            }
+
+        };
+
+        YAxesVelocity = new Axis[]
+        {
+            new Axis
+            {
+                Name = "v [mm/s]",
+                TextSize = 16
+            }
+      
+        };
+
+        YAxesAcceleration = new Axis[]
+        {
+            new Axis
+            {
+                Name = "a [mm/s^2]",
+                TextSize = 16
+            }
+
+        };
+
         _customAxis = new DateTimeAxis(TimeSpan.FromSeconds(1), Formatter)
         {
             CustomSeparators = GetSeparators(),
             AnimationsSpeed = TimeSpan.FromMilliseconds(0),
-            SeparatorsPaint = new SolidColorPaint(SKColors.Black.WithAlpha(100))
+            SeparatorsPaint = new SolidColorPaint(SKColors.Black.WithAlpha(100)),
         };
 
         XAxes = new Axis[] { _customAxis };
@@ -83,7 +136,12 @@ public partial class ViewModel : ObservableObject
 
     public ObservableCollection<ISeries> VelocitySeries { get; set; }
 
+    public ObservableCollection<ISeries> AccelerationSeries { get; set; }
+
     public Axis[] XAxes { get; set; }
+    public Axis[] YAxesDistance { get; set; }
+    public Axis[] YAxesVelocity { get; set; }
+    public Axis[] YAxesAcceleration { get; set; }
 
     public object Sync { get; } = new object();
 
@@ -110,6 +168,9 @@ public partial class ViewModel : ObservableObject
 
                 _velocityValues.Add(new DateTimePoint(DateTime.Now, _data.ReadVelocityValue(i)));
                 if (_velocityValues.Count > 250) _velocityValues.RemoveAt(0);
+
+                _accelerationValues.Add(new DateTimePoint(DateTime.Now, _data.ReadAccelerationValue(i)));
+                if (_accelerationValues.Count > 250) _accelerationValues.RemoveAt(0);
 
                 foreach (double? value in new List<double>() { _data.MaxValue, _data.MinValue })
                 {

@@ -13,7 +13,8 @@
                 <Grid Height="690">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="36*"/>
-                        <ColumnDefinition Width="110*"/>
+                        <ColumnDefinition Width="94*"/>
+                        <ColumnDefinition Width="16*"/>
                         <ColumnDefinition Width="47*"/>
                         <ColumnDefinition Width="27*"/>
                         <ColumnDefinition Width="123*"/>
@@ -25,25 +26,26 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="FilePickerButton" Content="Wybierz plik" Margin="8,80,110,233" Click="FilePickerButton_Click" FontSize="16" Grid.ColumnSpan="4" Grid.Column="1"/>
+                    <Button x:Name="FilePickerButton" Content="Wybierz plik" Margin="8,80,110,233" Click="FilePickerButton_Click" FontSize="16" Grid.ColumnSpan="5" Grid.Column="1"/>
                     <lvc:CartesianChart
                         SyncContext="{Binding Sync}"
                         Series="{Binding Series}"
-                        XAxes="{Binding XAxes}" Height="384" Width="750" Grid.Column="6" Grid.ColumnSpan="2" Margin="10,10,0,296" HorizontalAlignment="Left" Grid.RowSpan="2"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="8,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="348" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="5" Grid.Column="1"><Run Language="pl-pl" Text="Wprowadź rodzaj urządzenia pomiarowego"/></TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="8,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="310" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="5" Grid.Column="1"><Run Language="pl-pl" Text="Wczytaj pomiar z pliku"/></TextBlock>
-                    <TextBox HorizontalAlignment="Left" Margin="8,216,0,0" TextWrapping="Wrap" Text="Urządzenie" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.ColumnSpan="2" Grid.Column="1"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="8,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="310" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="5" Grid.Column="1"><Run Text="Wprowadź "/><Run Language="pl-pl" Text="zakres pomiarowy"/></TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="8,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="368" FontSize="16" Grid.Row="1" FontWeight="Bold" Grid.ColumnSpan="6" Grid.Column="1"><Run Text="Wprowadź "/><Run Language="pl-pl" Text="zakres sygnału wyjściowego [V]"/></TextBlock>
+                        YAxes="{Binding YAxesDistance}"
+                        XAxes="{Binding XAxes}" Height="384" Width="750" Grid.Column="7" Grid.ColumnSpan="2" Margin="10,10,0,296" HorizontalAlignment="Left" Grid.RowSpan="2"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="8,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="348" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="6" Grid.Column="1"><Run Language="pl-pl" Text="Wprowadź rodzaj urządzenia pomiarowego"/></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="8,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="310" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="6" Grid.Column="1"><Run Language="pl-pl" Text="Wczytaj pomiar z pliku"/></TextBlock>
+                    <TextBox HorizontalAlignment="Left" Margin="8,216,0,0" TextWrapping="Wrap" Text="Urządzenie" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.ColumnSpan="3" Grid.Column="1"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="8,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="310" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="6" Grid.Column="1"><Run Text="Wprowadź "/><Run Language="pl-pl" Text="zakres pomiarowy"/></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="8,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="368" FontSize="16" Grid.Row="1" FontWeight="Bold" Grid.ColumnSpan="7" Grid.Column="1"><Run Text="Wprowadź "/><Run Language="pl-pl" Text="zakres sygnału wyjściowego [V]"/></TextBlock>
                     <TextBox HorizontalAlignment="Left" Margin="43,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.Row="1" Grid.Column="1"/>
                     <TextBlock HorizontalAlignment="Left" Margin="8,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontSize="16" Grid.Row="1" Grid.Column="1"><Run Language="pl-pl" Text="od"/></TextBlock>
-                    <TextBox HorizontalAlignment="Left" Margin="34,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="109,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontSize="16" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"><Run Language="pl-pl" Text="do"/></TextBlock>
+                    <TextBox HorizontalAlignment="Left" Margin="34,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="15,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontSize="16" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="2"><Run Language="pl-pl" Text="do"/></TextBlock>
                     <TextBox HorizontalAlignment="Left" Margin="43,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.RowSpan="2" Grid.Column="1"/>
                     <TextBlock HorizontalAlignment="Left" Margin="8,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontSize="16" Grid.RowSpan="2" Grid.Column="1"><Run Language="pl-pl" Text="od"/></TextBlock>
-                    <TextBox HorizontalAlignment="Left" Margin="34,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="109,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontSize="16" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="1"><Run Language="pl-pl" Text="do"/></TextBlock>
-                    <Button x:Name="Generuj_wykresy" Content="Generuj wykresy ruchu" Margin="8,255,44,58" Click="FilePickerButton_Click" FontSize="16" Grid.Row="1" Grid.ColumnSpan="5" Grid.Column="1"/>
+                    <TextBox HorizontalAlignment="Left" Margin="34,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="3"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="15,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontSize="16" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="2"><Run Language="pl-pl" Text="do"/></TextBlock>
+                    <Button x:Name="Generuj_wykresy" Content="Generuj wykresy ruchu" Margin="8,255,44,58" Click="FilePickerButton_Click" FontSize="16" Grid.Row="1" Grid.ColumnSpan="6" Grid.Column="1"/>
                 </Grid>
             </TabItem>
 
@@ -65,6 +67,7 @@
                     <lvc:CartesianChart
                         SyncContext="{Binding Sync}"
                         Series="{Binding Series}"
+                        YAxes="{Binding YAxesDistance}"
                         XAxes="{Binding XAxes}" Width="750" Grid.Column="3" Margin="0,10,0,144" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
                     <TextBlock HorizontalAlignment="Left" Margin="36,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="309" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="3"><Run Language="pl-pl" Text="R"/><Run Text="odzaj urządzenia pomiarowego"/></TextBlock>
                     <TextBlock HorizontalAlignment="Left" Margin="36,85,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
@@ -78,11 +81,13 @@
                     <lvc:CartesianChart
                         SyncContext="{Binding Sync}"
                         Series="{Binding VelocitySeries}"
-                        XAxes="{Binding XAxes}" Width="750" Grid.Column="3" Margin="0,234,0,238" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                        YAxes="{Binding YAxesVelocity}"
+                        XAxes="{Binding XAxes}" Width="750" Grid.Column="3" Margin="0,232,0,265" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                     <lvc:CartesianChart
                         SyncContext="{Binding Sync}"
-                        Series="{Binding Series}"
-                        XAxes="{Binding XAxes}" Width="750" Grid.Column="3" Margin="0,127,0,0" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1"/>
+                        Series="{Binding AccelerationSeries}"
+                        YAxes="{Binding YAxesAcceleration}"
+                        XAxes="{Binding XAxes}" Width="750" Grid.Column="3" Margin="0,112,0,15" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1"/>
                 </Grid>
             </TabItem>
 
