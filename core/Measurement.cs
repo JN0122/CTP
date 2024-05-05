@@ -59,5 +59,10 @@ namespace CTP.core
         {
             return _table.Rows.Count;
         }
+
+        public int ColumnsCount()
+        {
+            return _table.Columns.Count;
+        }
     }
 }
