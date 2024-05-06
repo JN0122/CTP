@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace CTP.core
 {
-    public sealed class Measurements
+    public sealed class Measurement
     {
         public DataTable Table = new();
 
         public float MinTime = 0;
         public float MaxTime = 0;
 
-        private Measurements() { }
+        private Measurement() { }
 
-        private static Measurements? _instance;
+        private static Measurement? _instance;
 
-        public static Measurements GetInstance()
+        public static Measurement GetInstance()
         {
-            _instance ??= new Measurements();
+            _instance ??= new Measurement();
             return _instance;
         }
 

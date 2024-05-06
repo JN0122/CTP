@@ -10,7 +10,7 @@ namespace CTP
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Measurements data = Measurements.GetInstance();
+        private readonly Measurement data = Measurement.GetInstance();
         public MainWindow()
         {
             InitializeComponent();
