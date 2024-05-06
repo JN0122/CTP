@@ -32,11 +32,11 @@ namespace CTP.core
 
             for (int i = 0; i < OriginalData.Columns.Count; i++)
             {
-                newDataTable.Columns.Add(OriginalData.Columns[i].ColumnName, typeof(double));
+                newDataTable.Columns.Add(OriginalData.Columns[i].ColumnName, typeof(float));
             }
 
             //robimy tablice do liczenia srednich i czyscimy ja
-            double[] newValues = new double[newDataTable.Columns.Count];
+            float[] newValues = new float[newDataTable.Columns.Count];
             for (int i = 0; i < newDataTable.Columns.Count; i++) newValues[i] = 0;
 
 
@@ -50,14 +50,14 @@ namespace CTP.core
                     {
                         // ta super matma w indeksie sprawi ze przelecimy przez prawie wszystkie elementy DataTable oryginalnego
                         // nie liczac reszty z dzielenia przez te 250 na poczatku
-                        newValues[k] += OriginalData.Rows[l + j * (int)OriginalDtPtsPerNewDataPt].Field<double>(k);
+                        newValues[k] += OriginalData.Rows[l + j * (int)OriginalDtPtsPerNewDataPt].Field<float>(k);
                     }
 
-                    newValues[k] = newValues[k] / (double)OriginalDtPtsPerNewDataPt;
+                    newValues[k] = newValues[k] / (float)OriginalDtPtsPerNewDataPt;
 
                 }
 
-                // nie wiem czemu ItemArray nie akceptuje double[] tylko object[]
+                // nie wiem czemu ItemArray nie akceptuje float[] tylko object[]
                 // wiec zamieniam jedno w drugie xd
 
                 object[] rowarr = new object[newValues.Length];

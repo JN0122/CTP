@@ -11,16 +11,12 @@ namespace CTP.core
 {
     public sealed class Measurements
     {
-        private DataTable _table = new();
-        public double MaxValue = 10;
-        public double MinValue = 0;
+        public DataTable Table = new();
 
-        public double MinTime = 0;
-        public double MaxTime = 0;
+        public float MinTime = 0;
+        public float MaxTime = 0;
 
-        public int AmtOfRows = 0;
-
-        public Measurements() { }
+        private Measurements() { }
 
         private static Measurements? _instance;
 
@@ -32,32 +28,20 @@ namespace CTP.core
 
         public void SetDataTable(DataTable Table)
         {
-            _table = Table;
+            this.Table = Table;
 
-            AmtOfRows = ValueCount();
+            MinTime = Table.Rows[1].Field<float>(0);
+            MaxTime = Table.Rows[Table.Rows.Count - 1].Field<float>(0);
+        }
 
-            MinTime = _table.Rows[1].Field<double>(0);
-            MaxTime = _table.Rows[AmtOfRows-1].Field<double>(0);
-
-            foreach (DataRow Row in _table.Rows)
+        public List<float> GetValues(int ColumnIndex)
+        {
+            List<float> Values = new();
+            foreach (DataRow Row in this.Table.Rows)
             {
-                double value = Row.Field<double>(1);
-
-                if (value > MaxValue) MaxValue = value;
-                else if(value < MinValue) MinValue = value;
+                Values.Add(Row.Field<float>(ColumnIndex));
             }
-        }
-
-        public double? ReadValue(int index, int col = 1)
-        {
-            if (_table == null || index >= AmtOfRows) return null;
-
-            return _table.Rows[index].Field<double>(col);
-        }
-
-        public int ValueCount()
-        {
-            return _table.Rows.Count;
+            return Values;
         }
     }
 }

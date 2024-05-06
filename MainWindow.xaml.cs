@@ -10,6 +10,7 @@ namespace CTP
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly Measurements data = Measurements.GetInstance();
         public MainWindow()
         {
             InitializeComponent();
@@ -17,13 +18,23 @@ namespace CTP
 
         public void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
-            string FilePath = FilePicker.GetFilePath();
-            string FileContentRaw = FilePicker.GetFileContent(FilePath);
             
-            Measurements data = Measurements.GetInstance();
-            data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
+            try
+            {
+                string FilePath = FilePicker.GetFilePath();
 
-            /*Trace.WriteLine(String.Join(", ", _timeValues));*/
+                if (FilePath == "NullPath") return;
+
+                string FileContentRaw = FilePicker.GetFileContent(FilePath);
+
+                data.SetDataTable(Parser.Parse(FileContentRaw));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            RawChart.AllValues = data.GetValues(1);
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
