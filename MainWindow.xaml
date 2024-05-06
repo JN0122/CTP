@@ -1,12 +1,9 @@
 ﻿<Window x:Class="CTP.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vms="clr-namespace:CTP.core"
+        xmlns:charts="clr-namespace:CTP.Charts"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         Title="MainWindow" Height="750" Width="1200">
-    <Window.DataContext>
-        <vms:ViewModel />
-    </Window.DataContext>
     <StackPanel>
         <TabControl Name="tab_kontrolki">
             <TabItem Header="Konfiguracja" FontSize="16" Width="120" Height="35">
@@ -21,10 +18,16 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Button x:Name="FilePickerButton" Content="Wybierz plik" Margin="44,80,165,233" Click="FilePickerButton_Click" FontSize="16"/>
-                    <lvc:CartesianChart
-                        SyncContext="{Binding Sync}"
-                        Series="{Binding Series}"
-                        XAxes="{Binding XAxes}" Height="384" Width="750" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,10,0,296" HorizontalAlignment="Left" Grid.RowSpan="2"/>
+                    <Grid Height="384" Width="750" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,10,0,296" HorizontalAlignment="Left" Grid.RowSpan="2">
+                        <Grid.DataContext>
+                            <charts:RealTimeChart x:Name="RawChart"/>
+                        </Grid.DataContext>
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Wykres danych wczytanych z pliku" VerticalAlignment="Top"/>
+                        <lvc:CartesianChart
+                            SyncContext="{Binding Sync}"
+                            Series="{Binding Series}"
+                            XAxes="{Binding XAxes}" Margin="0,26,0,0"/>
+                    </Grid>
                     <TextBlock HorizontalAlignment="Left" Margin="44,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="348" FontSize="16" FontWeight="Bold"><Run Language="pl-pl" Text="Wprowadź rodzaj urządzenia pomiarowego"/></TextBlock>
                     <TextBlock HorizontalAlignment="Center" Margin="0,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="309" FontSize="16" FontWeight="Bold"><Run Language="pl-pl" Text="Wczytaj pomiar z pliku"/></TextBlock>
                     <TextBox HorizontalAlignment="Left" Margin="44,216,0,0" TextWrapping="Wrap" Text="Urządzenie" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged" Opacity="0.4"/>
@@ -55,10 +58,15 @@
                     </Grid.RowDefinitions>
 
                     <Button x:Name="FilePickerButton2" Content="Drukuj PDF" Margin="36,262,161,52" Click="FilePDFButton_Click" FontSize="16" Grid.Row="1"/>
-                    <lvc:CartesianChart
-                        SyncContext="{Binding Sync}"
-                        Series="{Binding Series}"
-                        XAxes="{Binding XAxes}" Height="384" Width="750" Grid.Column="1" Margin="10,10,0,296" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                    <Grid Height="384" Width="750" Grid.Column="1" Margin="10,10,0,296" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                        <Grid.DataContext>
+                            <charts:RealTimeChart />
+                        </Grid.DataContext>
+                        <lvc:CartesianChart
+                            SyncContext="{Binding Sync}"
+                            Series="{Binding Series}"
+                            XAxes="{Binding XAxes}" />
+                    </Grid>
                     <TextBlock HorizontalAlignment="Left" Margin="36,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="309" FontSize="16" FontWeight="Bold"><Run Language="pl-pl" Text="R"/><Run Text="odzaj urządzenia pomiarowego"/></TextBlock>
                     <TextBlock HorizontalAlignment="Left" Margin="36,85,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="36,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="309" FontSize="16" FontWeight="Bold"><Run Language="pl-pl" Text="Zakres pomiarowy:"/></TextBlock>
