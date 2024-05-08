@@ -37,6 +37,15 @@ namespace CTP
             RawChart.AllValues = data.GetValues(1);
         }
 
+        public void GraphsDrawerButton_Click(object sender, RoutedEventArgs e)
+        {
+            XChart.AllValues = data.GetValues(1);
+
+            VelocityChart.AllValues = data.GetVelocityValues(1);
+
+            AccelerationChart.AllValues = data.GetAccelerationValues(1);
+        }
+
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
 
