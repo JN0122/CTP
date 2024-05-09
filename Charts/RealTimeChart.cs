@@ -14,8 +14,8 @@ namespace CTP.Charts;
 public partial class RealTimeChart : ObservableObject
 {
     private readonly List<DateTimePoint> _values = new();
-    private readonly List<DateTimePoint> _velocityValues = new();
-    private readonly List<DateTimePoint> _accelerationValues = new();
+    /*private readonly List<DateTimePoint> _velocityValues = new();
+    private readonly List<DateTimePoint> _accelerationValues = new();*/
     private readonly DateTimeAxis _customAxis;
 
     public int VisibleElements { get; set; } = 350;
@@ -34,7 +34,7 @@ public partial class RealTimeChart : ObservableObject
 
         };
 
-        VelocitySeries = new ObservableCollection<ISeries>
+        /*VelocitySeries = new ObservableCollection<ISeries>
         {
             new LineSeries<DateTimePoint>
             {
@@ -43,9 +43,9 @@ public partial class RealTimeChart : ObservableObject
                 GeometryFill = null,
                 GeometryStroke = null,
             }
-        };
+        };*/
 
-        AccelerationSeries = new ObservableCollection<ISeries>
+        /*AccelerationSeries = new ObservableCollection<ISeries>
         {
             new LineSeries<DateTimePoint>
             {
@@ -54,7 +54,7 @@ public partial class RealTimeChart : ObservableObject
                 GeometryFill = null,
                 GeometryStroke = null,
             }
-        };
+        };*/
 
         _customAxis = new DateTimeAxis(TimeSpan.FromSeconds(1), Formatter)
         {
@@ -97,9 +97,9 @@ public partial class RealTimeChart : ObservableObject
 
     public ObservableCollection<ISeries> Series { get; set; }
 
-    public ObservableCollection<ISeries> VelocitySeries { get; set; }
+    /*public ObservableCollection<ISeries> VelocitySeries { get; set; }*/
 
-    public ObservableCollection<ISeries> AccelerationSeries { get; set; }
+    /*public ObservableCollection<ISeries> AccelerationSeries { get; set; }*/
 
     public Axis[] XAxes { get; set; }
 
@@ -131,11 +131,11 @@ public partial class RealTimeChart : ObservableObject
                 _values.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
                 if (_values.Count > VisibleElements) _values.RemoveAt(0);
 
-                _velocityValues.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
-                if (_velocityValues.Count > VisibleElements) _velocityValues.RemoveAt(0);
+                _values.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
+                if (_values.Count > VisibleElements) _values.RemoveAt(0);
 
-                _accelerationValues.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
-                if (_accelerationValues.Count > VisibleElements) _accelerationValues.RemoveAt(0);
+                _values.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
+                if (_values.Count > VisibleElements) _values.RemoveAt(0);
 
                 _customAxis.CustomSeparators = GetSeparators();
             }

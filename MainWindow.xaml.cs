@@ -34,16 +34,16 @@ namespace CTP
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            RawChart.AllValues = data.GetValues(1);
+            RawChart.AllValues = data.GetValues(1).Item1;
         }
 
         public void GraphsDrawerButton_Click(object sender, RoutedEventArgs e)
         {
-            XChart.AllValues = data.GetValues(1);
+            XChart.AllValues = data.GetValues(1).Item1;
 
-            VelocityChart.AllValues = data.GetVelocityValues(1);
+            VelocityChart.AllValues = data.GetValues(1).Item2;
 
-            AccelerationChart.AllValues = data.GetAccelerationValues(1);
+            AccelerationChart.AllValues = data.GetValues(1).Item3;
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

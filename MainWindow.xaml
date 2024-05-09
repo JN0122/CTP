@@ -83,7 +83,7 @@
                         </Grid.DataContext>
                         <lvc:CartesianChart
                             SyncContext="{Binding Sync}"
-                            Series="{Binding VelocitySeries}"
+                            Series="{Binding Series}"
                             YAxes="{Binding YAxesVelocity}"
                             XAxes="{Binding XAxes}" />
                     </Grid>
@@ -93,7 +93,7 @@
                         </Grid.DataContext>
                         <lvc:CartesianChart
                             SyncContext="{Binding Sync}"
-                            Series="{Binding AccelerationSeries}"
+                            Series="{Binding Series}"
                             YAxes="{Binding YAxesAcceleration}"
                             XAxes="{Binding XAxes}" />
                     </Grid>

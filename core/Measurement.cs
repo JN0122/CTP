@@ -34,17 +34,32 @@ namespace CTP.core
             MaxTime = Table.Rows[Table.Rows.Count - 1].Field<float>(0);
         }
 
-        public List<float> GetValues(int ColumnIndex)
+        public (List<float>, List<float>, List<float>) GetValues(int ColumnIndex)
         {
             List<float> Values = new();
             foreach (DataRow Row in this.Table.Rows)
             {
                 Values.Add(Row.Field<float>(ColumnIndex));
             }
-            return Values;
+
+            List<float> VelocityValues = new();
+            foreach (DataRow Row in this.Table.Rows)
+            {
+                int index = Table.Rows.IndexOf(Row);
+                VelocityValues.Add(CalculateVelocity(index));
+            }
+
+            List<float> AccelerationValues = new();
+            foreach (DataRow Row in this.Table.Rows)
+            {
+                int index = Table.Rows.IndexOf(Row);
+                AccelerationValues.Add(CalculateAcceleration(index));
+            }
+
+            return (Values, VelocityValues, AccelerationValues);
         }
 
-        public List<float> GetVelocityValues(int ColumnIndex)
+        /*public List<float> GetVelocityValues(int ColumnIndex)
         {
             List<float> Values = new();
             foreach (DataRow Row in this.Table.Rows)
@@ -53,9 +68,9 @@ namespace CTP.core
                 Values.Add(CalculateVelocity(index));
             }
             return Values;
-        }
+        }*/
 
-        public List<float> GetAccelerationValues(int ColumnIndex)
+        /*public List<float> GetAccelerationValues(int ColumnIndex)
         {
             List<float> Values = new();
             foreach (DataRow Row in this.Table.Rows)
@@ -64,7 +79,7 @@ namespace CTP.core
                 Values.Add(CalculateAcceleration(index));
             }
             return Values;
-        }
+        }*/
 
         public float CalculateVelocity(int index)
         {
