@@ -5,7 +5,7 @@
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         Title="MainWindow" Height="750" Width="1200">
     <StackPanel>
-        <TabControl Name="tab_kontrolki">
+        <TabControl Name="myTabControl">
             <TabItem Header="Konfiguracja" FontSize="16" Width="120" Height="35">
                 <Grid Height="690">
                     <Grid.ColumnDefinitions>

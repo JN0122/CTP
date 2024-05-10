@@ -97,10 +97,6 @@ public partial class RealTimeChart : ObservableObject
 
     public ObservableCollection<ISeries> Series { get; set; }
 
-    /*public ObservableCollection<ISeries> VelocitySeries { get; set; }*/
-
-    /*public ObservableCollection<ISeries> AccelerationSeries { get; set; }*/
-
     public Axis[] XAxes { get; set; }
 
     public Axis[] YAxesDistance { get; set; }
@@ -128,12 +124,6 @@ public partial class RealTimeChart : ObservableObject
 
             lock (Sync)
             {
-                _values.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
-                if (_values.Count > VisibleElements) _values.RemoveAt(0);
-
-                _values.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
-                if (_values.Count > VisibleElements) _values.RemoveAt(0);
-
                 _values.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
                 if (_values.Count > VisibleElements) _values.RemoveAt(0);
 
