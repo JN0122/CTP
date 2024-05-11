@@ -59,5 +59,20 @@ namespace CTP
         {
 
         }
+        
+        private void FinishSensorConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            myTabControl.SelectedIndex = 2;
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
