@@ -14,8 +14,6 @@ namespace CTP.Charts;
 public partial class RealTimeChart : ObservableObject
 {
     private readonly List<DateTimePoint> _values = new();
-    /*private readonly List<DateTimePoint> _velocityValues = new();
-    private readonly List<DateTimePoint> _accelerationValues = new();*/
     private readonly DateTimeAxis _customAxis;
 
     public int VisibleElements { get; set; } = 350;
@@ -33,28 +31,6 @@ public partial class RealTimeChart : ObservableObject
             }
 
         };
-
-        /*VelocitySeries = new ObservableCollection<ISeries>
-        {
-            new LineSeries<DateTimePoint>
-            {
-                Values = _velocityValues,
-                Fill = null,
-                GeometryFill = null,
-                GeometryStroke = null,
-            }
-        };*/
-
-        /*AccelerationSeries = new ObservableCollection<ISeries>
-        {
-            new LineSeries<DateTimePoint>
-            {
-                Values = _accelerationValues,
-                Fill = null,
-                GeometryFill = null,
-                GeometryStroke = null,
-            }
-        };*/
 
         _customAxis = new DateTimeAxis(TimeSpan.FromSeconds(1), Formatter)
         {
