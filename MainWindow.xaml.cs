@@ -1,7 +1,9 @@
 ﻿using CTP.core;
+using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CTP
 {
@@ -35,6 +37,17 @@ namespace CTP
             }
 
             RawChart.AllValues = data.GetValues(1);
+        }
+
+        public void GraphsDrawerButton_Click(object sender, RoutedEventArgs e)
+        {
+            myTabControl.SelectedIndex = 1;
+
+            XChart.AllValues = data.GetValues(1);
+
+            VelocityChart.AllValues = data.GetVelocityValues(1);
+
+            AccelerationChart.AllValues = data.GetAccelerationValues(1);
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

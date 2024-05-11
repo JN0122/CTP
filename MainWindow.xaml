@@ -5,7 +5,7 @@
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         Title="MainWindow" Height="750" Width="1200">
     <StackPanel>
-        <TabControl Name="tab_kontrolki">
+        <TabControl Name="myTabControl">
             <TabItem Header="Konfiguracja" FontSize="16" Width="120" Height="35">
                 <Grid Height="690">
                     <Grid.ColumnDefinitions>
@@ -41,7 +41,7 @@
                     <TextBlock HorizontalAlignment="Left" Margin="44,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontSize="16" Grid.RowSpan="2"><Run Language="pl-pl" Text="od"/></TextBlock>
                     <TextBox HorizontalAlignment="Left" Margin="180,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.RowSpan="2"/>
                     <TextBlock HorizontalAlignment="Left" Margin="145,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" FontSize="16" Grid.RowSpan="2"><Run Language="pl-pl" Text="do"/></TextBlock>
-                    <Button x:Name="Generuj_wykresy" Content="Generuj wykresy ruchu" Margin="44,255,44,58" Click="FilePickerButton_Click" FontSize="16" Grid.Row="1"/>
+                    <Button x:Name="GraphsDrawerButton" Content="Generuj wykresy ruchu" Margin="44,255,44,58" Click="GraphsDrawerButton_Click" FontSize="16" Grid.Row="1"/>
                 </Grid>
             </TabItem>
 
@@ -58,12 +58,13 @@
                     </Grid.RowDefinitions>
 
                     <Button x:Name="FilePickerButton2" Content="Drukuj PDF" Margin="36,262,161,52" Click="FilePDFButton_Click" FontSize="16" Grid.Row="1"/>
-                    <Grid Height="384" Width="750" Grid.Column="1" Margin="10,10,0,296" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                    <Grid Width="750" Grid.Column="1" Margin="10,10,0,134" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                         <Grid.DataContext>
-                            <charts:RealTimeChart />
+                            <charts:RealTimeChart x:Name="XChart"/>
                         </Grid.DataContext>
                         <lvc:CartesianChart
                             SyncContext="{Binding Sync}"
+                            YAxes="{Binding YAxesDistance}"
                             Series="{Binding Series}"
                             XAxes="{Binding XAxes}" />
                     </Grid>
@@ -76,6 +77,26 @@
                     <TextBlock HorizontalAlignment="Left" Margin="36,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="309" FontSize="16" FontWeight="Bold"><Run Language="pl-pl" Text="Zakres sygnału wyjściowego:"/></TextBlock>
                     <TextBlock HorizontalAlignment="Left" Margin="36,294,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
                     <DatePicker HorizontalAlignment="Left" Margin="36,143,0,0" Grid.Row="1" VerticalAlignment="Top" Opacity="0.4"/>
+                    <Grid Width="750" Grid.Column="1" Margin="10,224,0,265" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                        <Grid.DataContext>
+                            <charts:RealTimeChart x:Name="VelocityChart"/>
+                        </Grid.DataContext>
+                        <lvc:CartesianChart
+                            SyncContext="{Binding Sync}"
+                            Series="{Binding Series}"
+                            YAxes="{Binding YAxesVelocity}"
+                            XAxes="{Binding XAxes}" />
+                    </Grid>
+                    <Grid Width="750" Grid.Column="1" Margin="0,100,0,44" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1">
+                        <Grid.DataContext>
+                            <charts:RealTimeChart x:Name="AccelerationChart"/>
+                        </Grid.DataContext>
+                        <lvc:CartesianChart
+                            SyncContext="{Binding Sync}"
+                            Series="{Binding Series}"
+                            YAxes="{Binding YAxesAcceleration}"
+                            XAxes="{Binding XAxes}" />
+                    </Grid>
                 </Grid>
             </TabItem>
 

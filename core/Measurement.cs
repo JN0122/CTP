@@ -43,5 +43,79 @@ namespace CTP.core
             }
             return Values;
         }
+
+        public List<float> GetVelocityValues(int ColumnIndex)
+        {
+            List<float> Values = new();
+            foreach (DataRow Row in this.Table.Rows)
+            {
+                int index = Table.Rows.IndexOf(Row);
+                Values.Add(CalculateVelocity(index));
+            }
+            return Values;
+        }
+
+        public List<float> GetAccelerationValues(int ColumnIndex)
+        {
+            List<float> Values = new();
+            foreach (DataRow Row in this.Table.Rows)
+            {
+                int index = Table.Rows.IndexOf(Row);
+                Values.Add(CalculateAcceleration(index));
+            }
+            return Values;
+        }
+
+        public float CalculateVelocity(int index)
+        {
+            double[] xValues = new double[10];
+            double[] yValues = new double[10];
+
+            int offset = -4;
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (index + offset < 4 || index + offset >= Table.Rows.Count)
+                {
+                    yValues[i] = 0;
+                    xValues[i] = 0;
+                }
+                else
+                {
+                    yValues[i] = Table.Rows[index + offset].Field<Single>(0);
+                    xValues[i] = Table.Rows[index + offset].Field<Single>(1);
+                }
+
+                offset++;
+            }
+
+            return Reglinp.FitLine(yValues, xValues);
+        }
+
+        public float CalculateAcceleration(int index)
+        {
+            double[] xValues = new double[10];
+            double[] yValues = new double[10];
+
+            int offset = -4;
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (index + offset < 4 || index + offset >= Table.Rows.Count)
+                {
+                    yValues[i] = 0;
+                    xValues[i] = 0;
+                }
+                else
+                {
+                    yValues[i] = Table.Rows[index + offset].Field<Single>(0);
+                    xValues[i] = CalculateVelocity(index + offset);
+                }
+
+                offset++;
+            }
+
+            return Reglinp.FitLine(yValues, xValues);
+        }
     }
 }

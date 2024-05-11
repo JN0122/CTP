@@ -29,6 +29,7 @@ public partial class RealTimeChart : ObservableObject
                 GeometryFill = null,
                 GeometryStroke = null,
             }
+
         };
 
         _customAxis = new DateTimeAxis(TimeSpan.FromSeconds(1), Formatter)
@@ -36,6 +37,33 @@ public partial class RealTimeChart : ObservableObject
             CustomSeparators = GetSeparators(),
             AnimationsSpeed = TimeSpan.FromMilliseconds(0),
             SeparatorsPaint = new SolidColorPaint(SKColors.Black.WithAlpha(100)),
+        };
+
+        YAxesDistance = new Axis[]
+        {
+            new Axis
+            {
+                Name = "x [mm]",
+                TextSize = 16
+            }
+        };
+
+        YAxesVelocity = new Axis[]
+        {
+            new Axis
+            {
+                Name = "v [mm/s]",
+                TextSize = 16
+            }
+        };
+
+        YAxesAcceleration = new Axis[]
+        {
+            new Axis
+            {
+                Name = "a [mm/s^2]",
+                TextSize = 16
+            }
         };
 
         XAxes = new Axis[] { _customAxis };
@@ -46,6 +74,12 @@ public partial class RealTimeChart : ObservableObject
     public ObservableCollection<ISeries> Series { get; set; }
 
     public Axis[] XAxes { get; set; }
+
+    public Axis[] YAxesDistance { get; set; }
+
+    public Axis[] YAxesVelocity { get; set; }
+
+    public Axis[] YAxesAcceleration { get; set; }
 
     public object Sync { get; } = new object();
 
