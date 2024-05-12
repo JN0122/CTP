@@ -186,7 +186,7 @@
                     <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,7,0,0" Name="txtColName" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Name}"/>
                     
                     <Label Grid.Row="1" VerticalAlignment="Top" Content="Rodzaj" Height="30" HorizontalAlignment="Left" Margin="0,30,0,0"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,37,0,0" Name="txtColType" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Rodzaj}"/>
+                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,37,0,0" Name="txtColRodzaj" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Rodzaj}"/>
                     
                     <Label Grid.Row="1" VerticalAlignment="Top" Content="V min" Height="30" HorizontalAlignment="Left" Margin="0,60,0,0"/>
                     <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,67,0,0" Name="txtColVmin" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmin}"/>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows.Markup;
 
 namespace CTP.core
 {
@@ -18,13 +19,13 @@ namespace CTP.core
         private double mmin;
         private double mmax;
 
-        public Column(string Name, string Rodzaj, double vmin, double vmax, double mmmin, double mmax)
+        public Column(string name, string rodzaj, double vmin, double vmax, double mmin, double mmax)
         {
-            name = Name;
-            rodzaj = Rodzaj;
+            this.name = name;
+            this.rodzaj = rodzaj;
             this.vmin = vmin;
             this.vmax = vmax;
-            mmin = mmmin;
+            this.mmin = mmin;
             this.mmax = mmax;
         }
 
@@ -51,7 +52,7 @@ namespace CTP.core
 
             set
             {
-                name = value;
+                rodzaj = value;
                 OnPropertyChanged("Rodzaj");
             }
         }
@@ -125,7 +126,5 @@ namespace CTP.core
         }
 
         #endregion
-
-        //dodawanie odpowiedniej liczby elementow do xaml
     }
 }
