@@ -59,29 +59,33 @@ namespace CTP.core
         {
             return _table.Rows.Count;
         }
-        internal class Algorytm
+
+        public static DataTable VtoMm(double VLow, double VHigh, double MmLow, double MmHigh, DataTable originalData, bool truncateToMmHigh = false)
         {
-            public static DataTable VtoMm(double VLow, double VHigh, double MmLow, double MmHigh, DataTable originalData)
+            /// <summary>
+            /// truncateToMmHigh - wartości które przekraczałyby górny zakres czujnika
+            /// zostaną "przycięte" do MmHigh
+            /// </summary>
+            //double offset1 = -VLow;
+            //double offset2 = -MmLow;
+            if (VLow == VHigh || MmLow == MmHigh) throw new ArgumentException("Division by 0 in VtoMm conversion has ocurred\n");
+
+            DataTable returnTable = new DataTable();
+            returnTable.Columns.Add("Mm", typeof(double));
+
+            double scale = (MmHigh - MmLow) / (VHigh - VLow);
+            double newval = 0;
+
+            foreach (DataRow row in originalData.Rows)
             {
-                //double offset1 = -VLow;
-                //double offset2 = -MmLow;
-                if (VLow == VHigh || MmLow == MmHigh) throw new ArgumentException("Division by 0 in VtoMm conversion has ocurred\n");
 
-                DataTable returnTable = new DataTable();
-                returnTable.Columns.Add("Mm", typeof(double));
+                newval = (row.Field<double>(0) - VLow) * scale + MmHigh;
+                if (truncateToMmHigh == true && newval > MmHigh) newval = MmHigh;
+                returnTable.Rows.Add(newval);
 
-                double scale = (MmHigh - MmLow) / (VHigh - VLow);
-
-                foreach (DataRow row in originalData.Rows)
-                {
-
-                    double newval = (row.Field<double>(0) - VLow) * scale + MmHigh;
-                    returnTable.Rows.Add(newval);
-
-                }
-
-                return returnTable;
             }
+
+            return returnTable;
         }
     }
 }
