@@ -19,17 +19,6 @@ namespace CTP
             InitializeComponent();
         }
 
-        //protected override void OnStartup(StartupEventArgs e)
-        //{
-        //    base.OnStartup(e);
-        //    WpfMVVMSample.MainWindow window = new MainWindow();
-        //    UserViewModel VM = new UserViewModel();
-        //    window.DataContext = VM;
-        //    window.Show();
-        //}
-
-        public int NumberOfColumns;
-
         public void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
             
@@ -42,6 +31,7 @@ namespace CTP
                 string FileContentRaw = FilePicker.GetFileContent(FilePath);
 
                 data.SetDataTable(Parser.Parse(FileContentRaw));
+
             }
             catch (Exception ex)
             {
@@ -49,6 +39,7 @@ namespace CTP
             }
 
             RawChart.AllValues = data.GetValues(1);
+            ColViewModelInstance.addColumns(data);
         }
 
         public void GraphsDrawerButton_Click(object sender, RoutedEventArgs e)
@@ -60,7 +51,7 @@ namespace CTP
             VelocityChart.AllValues = data.GetVelocityValues(1);
 
             AccelerationChart.AllValues = data.GetAccelerationValues(1);
-            NumberOfColumns = data.ColumnsCount();
+            //NumberOfColumns = data.ColumnsCount();
 
             /*Trace.WriteLine(String.Join(", ", _timeValues));*/
         }

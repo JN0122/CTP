@@ -120,7 +120,7 @@ namespace CTP.core
 
         public int ColumnsCount()
         {
-            return _table.Columns.Count;
+            return Table.Columns.Count;
         }
     }
 }
