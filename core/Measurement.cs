@@ -9,55 +9,113 @@ using System.Threading.Tasks;
 
 namespace CTP.core
 {
-    public sealed class Measurements
+    public sealed class Measurement
     {
-        private DataTable _table = new();
-        public double MaxValue = 10;
-        public double MinValue = 0;
+        public DataTable Table = new();
 
-        public double MinTime = 0;
-        public double MaxTime = 0;
+        public float MinTime = 0;
+        public float MaxTime = 0;
 
-        public int AmtOfRows = 0;
+        private Measurement() { }
 
-        public Measurements() { }
+        private static Measurement? _instance;
 
-        private static Measurements? _instance;
-
-        public static Measurements GetInstance()
+        public static Measurement GetInstance()
         {
-            _instance ??= new Measurements();
+            _instance ??= new Measurement();
             return _instance;
         }
 
         public void SetDataTable(DataTable Table)
         {
-            _table = Table;
+            this.Table = Table;
 
-            AmtOfRows = ValueCount();
+            MinTime = Table.Rows[1].Field<float>(0);
+            MaxTime = Table.Rows[Table.Rows.Count - 1].Field<float>(0);
+        }
 
-            MinTime = _table.Rows[1].Field<double>(0);
-            MaxTime = _table.Rows[AmtOfRows-1].Field<double>(0);
-
-            foreach (DataRow Row in _table.Rows)
+        public List<float> GetValues(int ColumnIndex)
+        {
+            List<float> Values = new();
+            foreach (DataRow Row in this.Table.Rows)
             {
-                double value = Row.Field<double>(1);
-
-                if (value > MaxValue) MaxValue = value;
-                else if(value < MinValue) MinValue = value;
+                Values.Add(Row.Field<float>(ColumnIndex));
             }
+            return Values;
         }
 
-        public double? ReadValue(int index, int col = 1)
+        public List<float> GetVelocityValues(int ColumnIndex)
         {
-            if (_table == null || index >= AmtOfRows) return null;
-
-            return _table.Rows[index].Field<double>(col);
+            List<float> Values = new();
+            foreach (DataRow Row in this.Table.Rows)
+            {
+                int index = Table.Rows.IndexOf(Row);
+                Values.Add(CalculateVelocity(index));
+            }
+            return Values;
         }
 
-        public int ValueCount()
+        public List<float> GetAccelerationValues(int ColumnIndex)
         {
-            return _table.Rows.Count;
+            List<float> Values = new();
+            foreach (DataRow Row in this.Table.Rows)
+            {
+                int index = Table.Rows.IndexOf(Row);
+                Values.Add(CalculateAcceleration(index));
+            }
+            return Values;
+        }
+
+        public float CalculateVelocity(int index)
+        {
+            double[] xValues = new double[10];
+            double[] yValues = new double[10];
+
+            int offset = -4;
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (index + offset < 4 || index + offset >= Table.Rows.Count)
+                {
+                    yValues[i] = 0;
+                    xValues[i] = 0;
+                }
+                else
+                {
+                    yValues[i] = Table.Rows[index + offset].Field<Single>(0);
+                    xValues[i] = Table.Rows[index + offset].Field<Single>(1);
+                }
+
+                offset++;
+            }
+
+            return Reglinp.FitLine(yValues, xValues);
+        }
+
+        public float CalculateAcceleration(int index)
+        {
+            double[] xValues = new double[10];
+            double[] yValues = new double[10];
+
+            int offset = -4;
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (index + offset < 4 || index + offset >= Table.Rows.Count)
+                {
+                    yValues[i] = 0;
+                    xValues[i] = 0;
+                }
+                else
+                {
+                    yValues[i] = Table.Rows[index + offset].Field<Single>(0);
+                    xValues[i] = CalculateVelocity(index + offset);
+                }
+
+                offset++;
+            }
+
+            return Reglinp.FitLine(yValues, xValues);
         }
 
         public int ColumnsCount()
