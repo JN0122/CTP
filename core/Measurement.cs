@@ -117,5 +117,10 @@ namespace CTP.core
 
             return Reglinp.FitLine(yValues, xValues);
         }
+
+        public int ColumnsCount()
+        {
+            return Table.Columns.Count;
+        }
     }
 }

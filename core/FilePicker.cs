@@ -20,7 +20,7 @@ namespace CTP.core
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.FileName = "NullPath"; // Default file name
             dialog.DefaultExt = ".txt"; // Default file extension
-            dialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            dialog.Filter = "Measurement file|*.txt;*.lvm"; // Filter files by extension
 
             // Show open file dialog box
             dialog.ShowDialog();
