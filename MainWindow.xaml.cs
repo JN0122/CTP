@@ -49,7 +49,7 @@ namespace CTP
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ColumnLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             }

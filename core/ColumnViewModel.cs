@@ -25,7 +25,7 @@ namespace CTP.core
 
             foreach (DataColumn column in dt.Table.Columns)
             {
-                Column col = new Column(column.ColumnName, "init" , 0, 0, 0, 0);
+                Column col = new Column(column.ColumnName, "nieznany" , 0, 0, 0, 0);
 
                 _ColumnsList.Add(col);
                 CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, col));

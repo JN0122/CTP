@@ -37,7 +37,56 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Konfiguracja czujników" FontSize="16">
+            <TabItem Header="Konfiguruj czujniki" FontSize="16">
+                <Grid Margin="0,0,0,0">
+                    <Grid.DataContext>
+                        <core:ColumnViewModel x:Name="ColViewModelInstance"/>
+                    </Grid.DataContext>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListView Name="ColumnGrid" Grid.Row="2" Margin="4,30,12,13" ItemsSource="{Binding Columns}">
+                        <ListView.View>
+                            <GridView x:Name="grdTest">
+                                <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
+                                <GridViewColumn Header="Rodzaj" DisplayMemberBinding="{Binding Rodzaj}" Width="100"/>
+                                <GridViewColumn Header="V min" DisplayMemberBinding="{Binding Vmin}" Width="80"/>
+                                <GridViewColumn Header="V max" DisplayMemberBinding="{Binding Vmax}" Width="80"/>
+                                <GridViewColumn Header="mm od:" DisplayMemberBinding="{Binding Mmin}" Width="80"/>
+                                <GridViewColumn Header="mm do:" DisplayMemberBinding="{Binding Mmax}" Width="80"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <!-- Textboxes and labels for user details -->
+                    <Label Grid.Row="1" VerticalAlignment="Top" Content="Nazwa" Height="30" HorizontalAlignment="Left" Margin="0,0,0,0" ToolTip="Nazwa czujnika"/>
+                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,7,0,0" Name="txtColName" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Row="1" VerticalAlignment="Top" Content="Rodzaj" Height="30" HorizontalAlignment="Left" Margin="0,30,0,0" ToolTip="Impulsowy lub napięciowy"/>
+                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,37,0,0" Name="txtColRodzaj" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Rodzaj, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Row="1" VerticalAlignment="Top" Content="V min" Height="30" HorizontalAlignment="Left" Margin="0,60,0,0" ToolTip="Dolny zakres napięcia"/>
+                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,67,0,0" Name="txtColVmin" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmin, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Row="1" VerticalAlignment="Top" Content="V max" Height="30" HorizontalAlignment="Left" Margin="0,90,0,0" ToolTip="Górny zakres napięcia"/>
+                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,97,0,0" Name="txtColVMax" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmax, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Row="1" VerticalAlignment="Top" Content="mm od:" Height="30" HorizontalAlignment="Left" Margin="0,120,0,0" ToolTip="Minimalna mierzalna odległość"/>
+                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,127,0,0" Name="txtColMmin" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Mmin, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Row="1" VerticalAlignment="Top" Content="mm do:" Height="30" HorizontalAlignment="Left" Margin="0,150,0,0" ToolTip="Maksymalna mierzalna odległość"/>
+                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,157,0,0" Name="txtColMmax" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Mmax, UpdateSourceTrigger=PropertyChanged}"/>
+                    <!-- Other TextBoxes and Labels for User details -->
+                    <!--<Button Content="Aktualizuj" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="310,40,0,0" Name="btnUpdate" VerticalAlignment="Top" Width="141" Command="{Binding Path=UpdateCommand}" />-->
+                    <!-- Textboxes and labels for user's City, State, and Country -->
+                    <!--<TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,143,0,0" Name="txtCity" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.City, ElementName=ColumnGrid}"/>-->
+                    <!-- Labels for Country, City, State -->
+                    <!-- Textboxes and labels for Country, City, State -->
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="DO ZMIANY!!" FontSize="16">
                 <Grid Height="690">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="18*"/>
@@ -159,54 +208,7 @@
                     <CheckBox Content="Sensor 2" Margin="10,103,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Konfiguracja Czujników 2" FontSize="16">
-                <Grid Margin="0,0,0,0">
-                    <Grid.DataContext>
-                        <core:ColumnViewModel x:Name="ColViewModelInstance"/>
-                    </Grid.DataContext>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <ListView Name="ColumnGrid" Grid.Row="1" Margin="4,178,12,13" ItemsSource="{Binding Columns}">
-                        <ListView.View>
-                            <GridView x:Name="grdTest">
-                                <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
-                                <GridViewColumn Header="Rodzaj" DisplayMemberBinding="{Binding Rodzaj}" Width="Auto"/>
-                                <GridViewColumn Header="V min" DisplayMemberBinding="{Binding Vmin}" Width="100"/>
-                                <GridViewColumn Header="V max" DisplayMemberBinding="{Binding Vmax}" Width="80"/>
-                                <GridViewColumn Header="mm min" DisplayMemberBinding="{Binding Mmin}" Width="80"/>
-                                <GridViewColumn Header="mm max" DisplayMemberBinding="{Binding Mmax}" Width="100"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <!-- Textboxes and labels for user details -->
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="Nazwa" Height="30" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,7,0,0" Name="txtColName" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}"/>
-                    
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="Rodzaj" Height="30" HorizontalAlignment="Left" Margin="0,30,0,0"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,37,0,0" Name="txtColRodzaj" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Rodzaj, UpdateSourceTrigger=PropertyChanged}"/>
-                    
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="V min" Height="30" HorizontalAlignment="Left" Margin="0,60,0,0"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,67,0,0" Name="txtColVmin" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmin, UpdateSourceTrigger=PropertyChanged}"/>
-                    
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="V max" Height="30" HorizontalAlignment="Left" Margin="0,90,0,0"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,97,0,0" Name="txtColVMax" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmax, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="V min" Height="30" HorizontalAlignment="Left" Margin="0,120,0,0"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,127,0,0" Name="txtColMmin" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Mmin, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="V max" Height="30" HorizontalAlignment="Left" Margin="0,150,0,0"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,157,0,0" Name="txtColMmax" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Mmax, UpdateSourceTrigger=PropertyChanged}"/>
-                    <!-- Other TextBoxes and Labels for User details -->
-                    <!--<Button Content="Aktualizuj" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="310,40,0,0" Name="btnUpdate" VerticalAlignment="Top" Width="141" Command="{Binding Path=UpdateCommand}" />-->
-                    <!-- Textboxes and labels for user's City, State, and Country -->
-                    <!--<TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,143,0,0" Name="txtCity" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.City, ElementName=ColumnGrid}"/>-->
-                    <!-- Labels for Country, City, State -->
-                    <!-- Textboxes and labels for Country, City, State -->
-                </Grid>
-            </TabItem>
+            
         </TabControl>
     </StackPanel>
 </Window>
