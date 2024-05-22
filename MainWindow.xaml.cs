@@ -29,13 +29,17 @@ namespace CTP
             
             try
             {
+                //MessageBox.Show(ColViewModelInstance.GetItemListName_Debug().ToString(), "Liczba", MessageBoxButton.OK, MessageBoxImage.Error);
+
                 string FilePath = FilePicker.GetFilePath();
 
                 if (FilePath == "NullPath") return;
 
                 string FileContentRaw = FilePicker.GetFileContent(FilePath);
 
-                data.SetDataTable(Parser.Parse(FileContentRaw));
+                data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
+
+                RawChart.AllValues = data.GetValues(1);
 
             }
             catch (Exception ex)
@@ -43,10 +47,17 @@ namespace CTP
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            RawChart.AllValues = data.GetValues(1);
+            try
+            {
+                ColViewModelInstance.SwapData(data);
+            }
 
-            ColViewModelInstance.addColumns(data);
-        }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            }
 
         public void GraphsDrawerButton_Click(object sender, RoutedEventArgs e)
         {

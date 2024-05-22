@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -8,50 +10,65 @@ using System.Windows.Input;
 
 namespace CTP.core
 {
-    internal class ColumnViewModel
+    internal class ColumnViewModel: INotifyCollectionChanged
     {
-        private IList<Column> _ColumnsList { get; set; } = new List<Column>();
-
-        //public ColumnViewModel()
-        //{
-
-        //    _ColumnsList = new List<Column>();
-        //    //List<Column> CList
-        //    //_ColumnsList = CList;
-        //    Column c1 = new Column("C1", "Type", 0, 1, 2, 3);
-        //    Column c2 = new Column("C2", "Type", 0, 1, 2, 3);
-        //    Column c3 = new Column("C3", "Type", 0, 1, 2, 3);
-        //    Column c4 = new Column("C4", "Type", 0, 1, 2, 3);
-
-        //    _ColumnsList.Add(c1);
-        //    _ColumnsList.Add(c2);
-        //    _ColumnsList.Add(c3);
-        //    _ColumnsList.Add(c4);
-
-        //}
+        //private IList<Column> _ColumnsList { get; set; } = new List<Column>();
+        private ObservableCollection<Column> _ColumnsList { get; set; } = new ObservableCollection<Column>();
 
         public ColumnViewModel()
         {
 
         }
 
-        public void addColumns(Measurement dt) 
+        public void AddColumns(Measurement dt) 
         {
+
             foreach (DataColumn column in dt.Table.Columns)
             {
-                Column col = new Column(column.ColumnName, "init" , 0, 0, 0, 0);
+                Column col = new Column(column.ColumnName, "nieznany" , 0, 0, 0, 0);
 
                 _ColumnsList.Add(col);
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, col));
+            }
+        }
+        public void ClearColumns()
+        {
+            foreach(Column element in _ColumnsList.ToList())
+            {
+                _ColumnsList.Remove(element);
+                //CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, element));
             }
         }
 
-        public IList<Column> Columns
+        public int GetItemListName_Debug() 
+        {
+            return _ColumnsList.Count;
+        }
+
+        public void SwapData(Measurement NewData)
+        {
+            ClearColumns();
+            //CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+            AddColumns(NewData);
+        }
+
+
+        //public IList<Column> Columns
+        //{
+        //    get { return _ColumnsList; }
+        //    set { _ColumnsList = value; }
+        //}
+
+        public ObservableCollection<Column> Columns
         {
             get { return _ColumnsList; }
             set { _ColumnsList = value; }
         }
 
         private ICommand mUpdater;
+
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         public ICommand UpdateCommand
         {
