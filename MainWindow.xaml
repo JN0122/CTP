@@ -105,58 +105,44 @@
 
 
             <TabItem Header="Wykresy czujników" FontSize="16">
-                <Grid Height="690">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20"/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
 
-                    <Grid Width="750" Grid.Column="2" Margin="10,10,0,134" HorizontalAlignment="Left" Grid.ColumnSpan="2">
-                        <Grid.DataContext>
-                            <charts:RealTimeChart x:Name="AllSensorsMovementChart"/>
-                        </Grid.DataContext>
+                    <StackPanel Grid.Column="0" Margin="20">
+                        <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Language="pl-pl" Text="Wybierz czujniki"/></TextBlock>
+                        <StackPanel Margin="0,10" x:Name="Sensor_List"></StackPanel>
+                        <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Dane klienta:"/></TextBlock>
+                        <TextBox Text="Imię i nazwisko" TextChanged="TextBox_TextChanged"/>
+                        <TextBlock FontWeight="Bold" Margin="0,10"><Run Text="Wybierz datę pomiaru:"/></TextBlock>
+                        <DatePicker/>
+                        <Button x:Name="FilePickerButton2" Content="Drukuj PDF" Click="FilePDFButton_Click" Margin="0,10"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.ColumnSpan="2" MinHeight="200" Margin="0,15">
+                        <StackPanel.DataContext>
+                            <charts:AllSensorsChart x:Name="AllSensorsChart"/>
+                        </StackPanel.DataContext>
                         <lvc:CartesianChart
-                             SyncContext="{Binding Sync}"
-                             YAxes="{Binding YAxesDistance}"
-                             Series="{Binding Series}"
-                             XAxes="{Binding XAxes}" />
-                    </Grid>
-                    <TextBlock Margin="0,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="29" FontSize="16" FontWeight="Bold" Grid.Column="1"><Run Language="pl-pl" Text="Wybierz czujniki"/></TextBlock>
-                    <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" FontSize="16" Grid.Row="1" FontWeight="Bold" Grid.Column="1"><Run Text="Dane klienta"/><Run Language="pl-pl" Text=":"/></TextBlock>
-                    <TextBox Margin="0,85,0,0" TextWrapping="Wrap" Text="Imię i nazwisko" VerticalAlignment="Top" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.Row="1" Grid.Column="1"/>
-                    <DatePicker HorizontalAlignment="Left" Margin="0,171,0,0" Grid.Row="1" VerticalAlignment="Top" Opacity="0.4" Grid.Column="1" Width="196"/>
-                    <Grid Width="750" Grid.Column="2" Margin="10,224,0,265" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                        <Grid.DataContext>
-                            <charts:RealTimeChart x:Name="AllSensorsVelocityChart"/>
-                        </Grid.DataContext>
+                            MinHeight="200"
+                            Margin="0,10"
+                            Series="{Binding MovementSeries}"
+                            XAxes="{Binding XAxes}"/>
+
                         <lvc:CartesianChart
-                             SyncContext="{Binding Sync}"
-                             Series="{Binding Series}"
-                             YAxes="{Binding YAxesVelocity}"
-                             XAxes="{Binding XAxes}" />
-                    </Grid>
-                    <Grid Width="750" Grid.Column="2" Margin="0,100,0,44" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1">
-                        <Grid.DataContext>
-                            <charts:RealTimeChart x:Name="AllSensorsAccelerationGraph"/>
-                        </Grid.DataContext>
+                            MinHeight="200"
+                            Margin="0,10"
+                            Series="{Binding VelocitySeries}"
+                            XAxes="{Binding XAxes}"/>
+
                         <lvc:CartesianChart
-                             SyncContext="{Binding Sync}"
-                             Series="{Binding Series}"
-                             YAxes="{Binding YAxesAcceleration}"
-                             XAxes="{Binding XAxes}" />
-                    </Grid>
-                    <Button x:Name="FilePickerButton2" Content="Drukuj PDF" Click="FilePDFButton_Click" FontSize="16" Height="31" Margin="10,270,10,44" Grid.Row="1" Grid.Column="1"/>
-                    <TextBlock Margin="0,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" FontSize="16" Grid.Row="1" FontWeight="Bold" Grid.Column="1"><Run Text="Wybierz datę pomiaru"/><Run Text=":"/></TextBlock>
-                    <CheckBox Content="Sensor 3" Margin="10,128,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-                    <CheckBox Content="Sensor 4" Margin="10,153,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-                    <CheckBox Content="Sensor 1" Margin="10,78,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Grid.Column="1"/>
-                    <CheckBox Content="Sensor 2" Margin="10,103,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                            MinHeight="200"
+                            Margin="0,10"
+                            Series="{Binding AccelerationSeries}"
+                            XAxes="{Binding XAxes}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Konfiguracja Czujników 2" FontSize="16">
@@ -184,13 +170,13 @@
                     <!-- Textboxes and labels for user details -->
                     <Label Grid.Row="1" VerticalAlignment="Top" Content="Nazwa" Height="30" HorizontalAlignment="Left" Margin="0,0,0,0"/>
                     <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,7,0,0" Name="txtColName" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Name}"/>
-                    
+
                     <Label Grid.Row="1" VerticalAlignment="Top" Content="Rodzaj" Height="30" HorizontalAlignment="Left" Margin="0,30,0,0"/>
                     <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,37,0,0" Name="txtColRodzaj" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Rodzaj}"/>
-                    
+
                     <Label Grid.Row="1" VerticalAlignment="Top" Content="V min" Height="30" HorizontalAlignment="Left" Margin="0,60,0,0"/>
                     <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,67,0,0" Name="txtColVmin" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmin}"/>
-                    
+
                     <Label Grid.Row="1" VerticalAlignment="Top" Content="V max" Height="30" HorizontalAlignment="Left" Margin="0,90,0,0"/>
                     <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,97,0,0" Name="txtColVMax" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmax}"/>
 
