@@ -45,6 +45,11 @@ namespace CTP.core
             return _ColumnsList.Count;
         }
 
+        public List<Column> GetColumns()
+        {
+            return _ColumnsList.ToList();
+        }
+
         public void SwapData(Measurement NewData)
         {
             ClearColumns();

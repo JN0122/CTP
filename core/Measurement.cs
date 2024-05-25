@@ -123,6 +123,7 @@ namespace CTP.core
             return Table.Columns.Count;
         }
 
+        [Obsolete("Use VToMM2 instead")]
         public static DataTable VtoMm(double VLow, double VHigh, double MmLow, double MmHigh, DataTable originalData, bool truncateToMmHigh = false)
         {
             /// <summary>
@@ -151,30 +152,76 @@ namespace CTP.core
             return returnTable;
         }
 
-        public static DataTable VtoMm2(double VLow, double VHigh, double MmLow, double MmHigh, DataTable originalData, bool truncateToMmHigh = false)
+        public static DataTable VtoMm2(DataTable originalData, List<Column> ColumnsProvided, bool truncateToMmHigh = true)
         {
-            foreach (var Col in originalData.Columns)
-            {
-                if (Col.GetType() == typeof(string))
-                {
-                    //do nothing
-                }
 
+            if (originalData.Columns.Count != ColumnsProvided.Count) 
+            {
+                throw new ArgumentException("Column count mismatch in VToMM conversion");
+            }
+
+
+            //create and initialize a returnTable
+            DataTable returnTable  = new DataTable();
+
+            for (int i = 0; i < originalData.Columns.Count; i++)
+            {
+                returnTable.Columns.Add(ColumnsProvided[i].Name, typeof(string));
+            }
+
+            DataRow[] AuxilliaryRowArray;
+
+            for (int i = 0; i < originalData.Columns.Count; i++)
+            {
+                //nie chcemy edytowac kolumn ktore nie sa typu double
+                if (originalData.Columns[i].DataType == typeof(string)) break;
+
+
+                switch (ColumnsProvided[i].Rodzaj)
+                {
+                    case "Napięciowy":
+
+                        float scale = (ColumnsProvided[i].Mmax - ColumnsProvided[i].Mmin) / (ColumnsProvided[i].Vmax - ColumnsProvided[i].Vmin);
+                        float newval = 0;
+
+                        foreach (DataRow row in originalData.Rows)
+                        {
+                            //Jezus maria
+                            newval = (row.Field<float>(i) - ColumnsProvided[i].Vmin) * scale + ColumnsProvided[i].Mmax;
+                            if (truncateToMmHigh == true && newval > ColumnsProvided[i].Mmax) newval = ColumnsProvided[i].Mmax;
+                            row.SetField<float>(originalData.Columns[i], newval);
+                            //returnTable.Rows.Add(newval);
+
+                        }
+
+                        break;
+                    case "Impulsowy":
+                        //AuxilliaryRowArray = ImpulseToMm(originalData.Select(originalData.Columns[i].ColumnName), ColumnsProvided[i]);
+                        break;
+                    default:
+                        //TODO
+                        break;
+                }
 
 
             }
 
-            return new DataTable();
+            return originalData;
         }
 
-        static void ImpulseToMm()
-        {
-            return;
-        }
+        //static void ImpulseToMm(DataRow[] Rows, Column Col, bool truncateOutOfRangeValues = true)
+        //{
+        //    //return new DataRow[Rows.Length];
+        //}
 
-        static void SignalToMm()
+        //static DataRow[] SignalToMm(DataRow[] Rows, Column Col, bool truncateOutOfRangeValues = true)
+        //{
+        //    return new DataRow[Rows.Length];
+        //}
+
+        public DataTable GetDataTable()
         {
-            return;
+            return this.Table;
         }
     }
 }
