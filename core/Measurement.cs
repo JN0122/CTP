@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -143,7 +144,7 @@ namespace CTP.core
             foreach (DataRow row in originalData.Rows)
             {
 
-                newval = (row.Field<double>(0) - VLow) * scale + MmHigh;
+                newval = (row.Field<double>(0) - VLow) * scale;
                 if (truncateToMmHigh == true && newval > MmHigh) newval = MmHigh;
                 returnTable.Rows.Add(newval);
 
@@ -187,7 +188,7 @@ namespace CTP.core
                         foreach (DataRow row in originalData.Rows)
                         {
                             //Jezus maria
-                            newval = (row.Field<float>(i) - ColumnsProvided[i].Vmin) * scale + ColumnsProvided[i].Mmax;
+                            newval = (row.Field<float>(i) - ColumnsProvided[i].Vmin) * scale;
                             if (truncateToMmHigh == true && newval > ColumnsProvided[i].Mmax) newval = ColumnsProvided[i].Mmax;
                             row.SetField<float>(originalData.Columns[i], newval);
                             //returnTable.Rows.Add(newval);
@@ -209,10 +210,13 @@ namespace CTP.core
             return originalData;
         }
 
-        //static void ImpulseToMm(DataRow[] Rows, Column Col, bool truncateOutOfRangeValues = true)
-        //{
-        //    //return new DataRow[Rows.Length];
-        //}
+        static void ImpulseToMm(DataRow[] Rows, Column Col, int IndexLast, int IndexFirst, int VConst, bool truncateOutOfRangeValues = true)
+        {
+            //średnica elementu obrotowego d
+
+
+            //return new DataRow[Rows.Length];
+        }
 
         //static DataRow[] SignalToMm(DataRow[] Rows, Column Col, bool truncateOutOfRangeValues = true)
         //{
