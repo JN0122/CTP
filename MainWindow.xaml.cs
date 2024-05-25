@@ -34,22 +34,22 @@ namespace CTP
 
                 data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
 
+                try
+                {
+                    ColViewModelInstance.SwapData(data);
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
                 RawChart.AllValues = data.GetValues(1);
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            try
-            {
-                ColViewModelInstance.SwapData(data);
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             }
