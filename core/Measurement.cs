@@ -87,5 +87,31 @@ namespace CTP.core
 
             return returnTable;
         }
+
+        public static DataTable VtoMm2(double VLow, double VHigh, double MmLow, double MmHigh, DataTable originalData, bool truncateToMmHigh = false)
+        {
+            foreach (var Col in originalData.Columns)
+            {
+                if (Col.GetType() == typeof(string))
+                {
+                    //do nothing
+                }
+
+
+
+            }
+
+            return new DataTable();
+        }
+
+        static void ImpulseToMm()
+        {
+            return;
+        }
+
+        static void SignalToMm()
+        {
+            return;
+        }
     }
 }
