@@ -10,19 +10,23 @@
         <TabItem Header="Import danych" FontSize="16">
             <Grid VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="398*"/>
+                    <ColumnDefinition Width="67*"/>
+                    <ColumnDefinition Width="176*"/>
+                    <ColumnDefinition Width="155*"/>
+                    <ColumnDefinition Width="398*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                    <StackPanel Grid.Column="1">
+                <StackPanel Grid.Column="1" Grid.ColumnSpan="3">
                     <TextBlock Margin="10,20,10,0" TextWrapping="Wrap" FontWeight="Bold"><Run Language="pl-pl" Text="Wczytaj pomiar z pliku"/></TextBlock>
                     <Button Margin="10,20,10,0" x:Name="FilePickerButton" Content="Wybierz plik" Click="FilePickerButton_Click"/>
+                    <RadioButton Margin="10" x:Name="RbRuch" Checked="RbRuch_Checked">Ruch</RadioButton>
+                    <RadioButton Margin="10" x:Name="RbPrObr" Checked="RbPrObr_Checked">Prędkość obrotowa</RadioButton>
                 </StackPanel>
-                <Button x:Name="ConfigureSensorsButton" Content="Przejdź do konfiguracji czujników" Click="ConfigureSensorsButton_Click" Grid.Row="1" Grid.Column="1" Margin="10,50"/>
+                <Button x:Name="ConfigureSensorsButton" Content="Przejdź do konfiguracji czujników" Click="ConfigureSensorsButton_Click" Grid.Row="1" Grid.Column="1" Margin="10,50,10,50" Grid.ColumnSpan="3"/>
             </Grid>
         </TabItem>
 

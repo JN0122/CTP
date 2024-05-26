@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +23,19 @@ namespace CTP.core
 
         public void AddColumns(Measurement dt) 
         {
+            //STARY KOD DZIAŁAJĄCY - WYPISUJE TEŻ KOLUMNĘ Z CZASEM
 
-            foreach (DataColumn column in dt.Table.Columns)
+            //foreach (DataColumn column in dt.Table.Columns)
+            //{
+            //    Column col = new Column(column.ColumnName, "nieznany" , 0, 0, 0, 0);
+
+            //    _ColumnsList.Add(col);
+            //    CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, col));
+            //}
+
+            for (int i = 1; i < dt.Table.Columns.Count; i++)
             {
-                Column col = new Column(column.ColumnName, "nieznany" , 0, 0, 0, 0);
-
+                Column col = new Column(dt.Table.Columns[i].ColumnName, "nieznany", 0, 0, 0, 0);
                 _ColumnsList.Add(col);
                 CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, col));
             }

@@ -19,6 +19,8 @@ namespace CTP
     public partial class MainWindow : Window
     {
         private readonly Measurement data = Measurement.GetInstance();
+
+        private bool CzyOdleglosc = true;
         public MainWindow()
         {
             InitializeComponent();
@@ -126,6 +128,18 @@ namespace CTP
             CheckBox sensor_checkbox = (CheckBox)sender;
 
             return (string)sensor_checkbox.Content;
+        }
+
+        private void RbRuch_Checked(object sender, RoutedEventArgs e)
+        {
+            this.CzyOdleglosc = true;
+            MessageBox.Show(this.CzyOdleglosc.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void RbPrObr_Checked(object sender, RoutedEventArgs e)
+        {
+            this.CzyOdleglosc = false;
+            MessageBox.Show(this.CzyOdleglosc.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
