@@ -88,6 +88,11 @@ public partial class RealTimeChart : ObservableObject
     public List<float> AllValues { get; set; } = new();
     private int i = 0;
 
+    public void ClearChart()
+    {
+        _values.Clear();
+    }
+
     private async Task ReadData()
     {
         while (IsReading)
