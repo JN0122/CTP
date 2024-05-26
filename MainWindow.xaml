@@ -21,12 +21,8 @@
                     <StackPanel Grid.Column="1">
                     <TextBlock Margin="10,20,10,0" TextWrapping="Wrap" FontWeight="Bold"><Run Language="pl-pl" Text="Wczytaj pomiar z pliku"/></TextBlock>
                     <Button Margin="10,20,10,0" x:Name="FilePickerButton" Content="Wybierz plik" Click="FilePickerButton_Click"/>
-                    <TextBlock Margin="10,20,10,0" TextWrapping="Wrap" FontWeight="Bold">Wstępna konfiguracja czujników:</TextBlock>
-                    <StackPanel>
-
-                    </StackPanel>
                 </StackPanel>
-                <Button x:Name="GraphsDrawerButton" Content="Przejdź do konfiguracji czujników" Click="GraphsDrawerButton_Click" Grid.Row="1" Grid.Column="1" Margin="10,50"/>
+                <Button x:Name="ConfigureSensorsButton" Content="Przejdź do konfiguracji czujników" Click="ConfigureSensorsButton_Click" Grid.Row="1" Grid.Column="1" Margin="10,50"/>
             </Grid>
         </TabItem>
 
@@ -98,7 +94,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="0" Grid.RowSpan="3" Margin="20" Width="400">
                     <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Language="pl-pl" Text="Wybierz czujniki"/></TextBlock>
-                    <StackPanel Margin="0,10" x:Name="Sensor_List2"/>
+                    <StackPanel Margin="0,10" x:Name="SensorList1"/>
                     <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Dane klienta:"/></TextBlock>
                     <TextBox Text="Imię i nazwisko" TextChanged="TextBox_TextChanged"/>
                     <TextBlock FontWeight="Bold" Margin="0,10"><Run Text="Wybierz datę pomiaru:"/></TextBlock>
@@ -149,7 +145,7 @@
 
                 <StackPanel Grid.Column="0" Margin="20" Width="400">
                     <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Language="pl-pl" Text="Wybierz czujniki"/></TextBlock>
-                    <StackPanel Margin="0,10" x:Name="Sensor_List1"/>
+                    <StackPanel Margin="0,10" x:Name="SensorList2"/>
                     <!-- <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Zmień zakres wykresu:"/></TextBlock>
                         <Grid>
                             <Grid.ColumnDefinitions>

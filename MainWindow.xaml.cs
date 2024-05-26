@@ -26,19 +26,12 @@ namespace CTP
 
         public void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
-            
             try
             {
-                //MessageBox.Show(ColViewModelInstance.GetItemListName_Debug().ToString(), "Liczba", MessageBoxButton.OK, MessageBoxImage.Error);
-
                 string FilePath = FilePicker.GetFilePath();
-
                 if (FilePath == "NullPath") return;
-
                 string FileContentRaw = FilePicker.GetFileContent(FilePath);
-
                 data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
-
             }
             catch (Exception ex)
             {
@@ -54,10 +47,9 @@ namespace CTP
             {
                 MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
 
-            }
-
-        public void GraphsDrawerButton_Click(object sender, RoutedEventArgs e)
+        public void ConfigureSensorsButton_Click(object sender, RoutedEventArgs e)
         {
             myTabControl.SelectedIndex = 1;
 
@@ -73,16 +65,16 @@ namespace CTP
 
         }
 
-        private void AddSensorToList(string Content)
+        private void AddSensorToList(string Content, StackPanel SensorList, bool IsChecked = true)
         {
             CheckBox sensor_checkbox = new()
             {
                 Content = Content,
-                IsChecked = true
+                IsChecked = IsChecked
             };
             sensor_checkbox.Checked += CheckBox_Checked;
             sensor_checkbox.Unchecked += CheckBox_Unchecked;
-            Sensor_List1.Children.Add(sensor_checkbox);
+            SensorList.Children.Add(sensor_checkbox);
         }
 
         private void FilePDFButton_Click(object sender, RoutedEventArgs e)
@@ -95,10 +87,12 @@ namespace CTP
             myTabControl.SelectedIndex = 2;
             AllSensorsChart.Labels = data.GetValues(0);
 
-            Sensor_List1.Children.Clear();
+            SensorList1.Children.Clear();
+            SensorList2.Children.Clear();
             for (int i = 1; i < data.Table.Columns.Count; i++)
             {
-                AddSensorToList("Sensor " + i);
+                AddSensorToList("Sensor " + i, SensorList1);
+                AddSensorToList("Sensor " + i, SensorList2);
                 AllSensorsChart.SetSensorValues(i-1, data.GetValues(i), "Sensor " + i);
             }
         }
