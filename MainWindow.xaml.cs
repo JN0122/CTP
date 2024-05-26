@@ -133,13 +133,13 @@ namespace CTP
         private void RbRuch_Checked(object sender, RoutedEventArgs e)
         {
             this.CzyOdleglosc = true;
-            MessageBox.Show(this.CzyOdleglosc.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //MessageBox.Show(this.CzyOdleglosc.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void RbPrObr_Checked(object sender, RoutedEventArgs e)
         {
             this.CzyOdleglosc = false;
-            MessageBox.Show(this.CzyOdleglosc.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //MessageBox.Show(this.CzyOdleglosc.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
