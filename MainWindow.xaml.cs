@@ -53,6 +53,10 @@ namespace CTP
         {
             myTabControl.SelectedIndex = 1;
 
+            XChart.ClearChart();
+            VelocityChart.ClearChart();
+            AccelerationChart.ClearChart();
+
             XChart.AllValues = data.GetValues(1);
             VelocityChart.AllValues = data.GetVelocityValues(1);
             AccelerationChart.AllValues = data.GetAccelerationValues(1);
@@ -85,10 +89,11 @@ namespace CTP
         private void FinishSensorConfiguration_Click(object sender, RoutedEventArgs e)
         {
             myTabControl.SelectedIndex = 2;
-            AllSensorsChart.Labels = data.GetValues(0);
+            AllSensorsChart.SetLabels(data.GetValues(0));
 
             SensorList1.Children.Clear();
             SensorList2.Children.Clear();
+            AllSensorsChart.ClearAllSeries();
             for (int i = 1; i < data.Table.Columns.Count; i++)
             {
                 AddSensorToList("Sensor " + i, SensorList1);

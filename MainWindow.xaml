@@ -171,8 +171,9 @@
                         <charts:AllSensorsChart x:Name="AllSensorsChart"/>
                     </Grid.DataContext>
                     <lvc:CartesianChart
-                            Series="{Binding MovementSeries}"
-                            XAxes="{Binding XAxes}"/>
+                            Series="{Binding Series}"
+                            XAxes="{Binding XAxes}"
+                            YAxes="{Binding YAxes}"/>
                 </Grid>
             </Grid>
         </TabItem>
