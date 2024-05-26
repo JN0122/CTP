@@ -39,8 +39,6 @@ namespace CTP
 
                 data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
 
-                RawChart.AllValues = data.GetValues(1);
-
             }
             catch (Exception ex)
             {
@@ -84,7 +82,7 @@ namespace CTP
             };
             sensor_checkbox.Checked += CheckBox_Checked;
             sensor_checkbox.Unchecked += CheckBox_Unchecked;
-            Sensor_List.Children.Add(sensor_checkbox);
+            Sensor_List1.Children.Add(sensor_checkbox);
         }
 
         private void FilePDFButton_Click(object sender, RoutedEventArgs e)
@@ -97,7 +95,7 @@ namespace CTP
             myTabControl.SelectedIndex = 2;
             AllSensorsChart.Labels = data.GetValues(0);
 
-            Sensor_List.Children.Clear();
+            Sensor_List1.Children.Clear();
             for (int i = 1; i < data.Table.Columns.Count; i++)
             {
                 AddSensorToList("Sensor " + i);

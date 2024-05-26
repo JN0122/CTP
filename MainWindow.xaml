@@ -6,195 +6,179 @@
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="CTP.MainWindow"
         Title="MainWindow" Height="750" Width="1200">
-    <StackPanel>
-        <TabControl x:Name="myTabControl">
-            <TabItem Header="Import danych" FontSize="16">
-                <Grid Height="690">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button x:Name="FilePickerButton" Content="Wybierz plik" Margin="98,63,98,250" Click="FilePickerButton_Click" FontSize="16" Grid.Column="1"/>
-                    <Grid Height="384" Width="750" Grid.Column="2" Grid.ColumnSpan="2" Margin="10,10,0,296" HorizontalAlignment="Left" Grid.RowSpan="2">
-                        <Grid.DataContext>
-                            <charts:RealTimeChart x:Name="RawChart"/>
-                        </Grid.DataContext>
-                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Wykres danych wczytanych z pliku" VerticalAlignment="Top"/>
-                        <lvc:CartesianChart
-                            SyncContext="{Binding Sync}"
-                            Series="{Binding Series}"
-                            XAxes="{Binding XAxes}" Margin="0,26,0,0"/>
-                    </Grid>
-                    <TextBlock Margin="0,20,0,302" TextWrapping="Wrap" FontSize="16" FontWeight="Bold" Grid.Column="1"><Run Language="pl-pl" Text="Wczytaj pomiar z pliku"/></TextBlock>
-                    <Button x:Name="GraphsDrawerButton" Content="Generuj wykresy ruchu" Margin="10,255,10,58" Click="GraphsDrawerButton_Click" FontSize="16" Grid.Row="1" Grid.Column="1"/>
-                    <TextBlock Margin="0,146,0,93" TextWrapping="Wrap" Grid.Column="1"><Run Text="Wykryto następujące czujniki:"/><LineBreak/><Run Text="Czujnik analogowy"/><LineBreak/><Run Text="Czujnik analogowy"/><LineBreak/><Run Text="Czujnik impulsowy"/></TextBlock>
-                </Grid>
-            </TabItem>
+    <TabControl x:Name="myTabControl" VerticalAlignment="Stretch">
+        <TabItem Header="Import danych" FontSize="16">
+            <Grid VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="1">
+                    <TextBlock Margin="10,20,10,0" TextWrapping="Wrap" FontWeight="Bold"><Run Language="pl-pl" Text="Wczytaj pomiar z pliku"/></TextBlock>
+                    <Button Margin="10,20,10,0" x:Name="FilePickerButton" Content="Wybierz plik" Click="FilePickerButton_Click"/>
+                    <TextBlock Margin="10,20,10,0" TextWrapping="Wrap" FontWeight="Bold">Wstępna konfiguracja czujników:</TextBlock>
+                    <StackPanel>
 
-            <TabItem Header="Konfiguruj czujniki" FontSize="16">
-                <Grid Margin="0,0,0,0">
+                    </StackPanel>
+                </StackPanel>
+                <Button x:Name="GraphsDrawerButton" Content="Przejdź do konfiguracji czujników" Click="GraphsDrawerButton_Click" Grid.Row="1" Grid.Column="1" Margin="10,50"/>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Konfiguruj czujniki" FontSize="16">
+            <Grid>
+                <Grid.DataContext>
+                    <core:ColumnViewModel x:Name="ColViewModelInstance"/>
+                </Grid.DataContext>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <ListView x:Name="ColumnGrid" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="10" ItemsSource="{Binding Columns}">
+                    <ListView.View>
+                        <GridView x:Name="grdTest">
+                            <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                            <GridViewColumn Header="Rodzaj" DisplayMemberBinding="{Binding Rodzaj}" Width="200"/>
+                            <GridViewColumn Header="V min" DisplayMemberBinding="{Binding Vmin}" Width="80"/>
+                            <GridViewColumn Header="V max" DisplayMemberBinding="{Binding Vmax}" Width="80"/>
+                            <GridViewColumn Header="mm od:" DisplayMemberBinding="{Binding Mmin}" Width="80"/>
+                            <GridViewColumn Header="mm do:" DisplayMemberBinding="{Binding Mmax}" Width="80"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <!-- Other TextBoxes and Labels for User details -->
+                <!--<Button Content="Aktualizuj" Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="310,40,0,0" Name="btnUpdate" VerticalAlignment="Top" Width="141" Command="{Binding Path=UpdateCommand}" />-->
+                <!-- Textboxes and labels for user's City, State, and Country -->
+                <!--<TextBox Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="80,143,0,0" Name="txtCity" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.City, ElementName=ColumnGrid}"/>-->
+                <!-- Labels for Country, City, State -->
+                <!-- Textboxes and labels for Country, City, State -->
+                <!-- Textboxes and labels for user details -->
+                <Label Grid.Row="0" VerticalAlignment="Top" Content="Nazwa" Height="30" HorizontalAlignment="Left" Margin="0,0,0,0" ToolTip="Nazwa czujnika"/>
+                <TextBox Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="80,7,0,0" x:Name="txtColName" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.Name, ElementName=ColumnGrid, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label Grid.Row="0" VerticalAlignment="Top" Content="Rodzaj" Height="30" HorizontalAlignment="Left" Margin="0,30,0,0" ToolTip="Impulsowy lub napięciowy"/>
+                <TextBox Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="80,37,0,0" x:Name="txtColRodzaj" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.Rodzaj, ElementName=ColumnGrid, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label Grid.Row="0" VerticalAlignment="Top" Content="V min" Height="30" HorizontalAlignment="Left" Margin="0,60,0,0" ToolTip="Dolny zakres napięcia"/>
+                <TextBox Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="80,67,0,0" x:Name="txtColVmin" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.Vmin, ElementName=ColumnGrid, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label Grid.Row="0" VerticalAlignment="Top" Content="V max" Height="30" HorizontalAlignment="Left" Margin="0,90,0,0" ToolTip="Górny zakres napięcia"/>
+                <TextBox Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="80,97,0,0" x:Name="txtColVMax" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.Vmax, ElementName=ColumnGrid, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label Grid.Row="0" VerticalAlignment="Top" Content="mm od:" Height="30" HorizontalAlignment="Left" Margin="0,120,0,0" ToolTip="Minimalna mierzalna odległość"/>
+                <TextBox Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="80,127,0,0" x:Name="txtColMmin" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.Mmin, ElementName=ColumnGrid, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label Grid.Row="0" VerticalAlignment="Top" Content="mm do:" Height="30" HorizontalAlignment="Left" Margin="0,150,0,0" ToolTip="Maksymalna mierzalna odległość"/>
+                <TextBox Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="80,157,0,0" x:Name="txtColMmax" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.Mmax, ElementName=ColumnGrid, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button x:Name="FinishSensorConfiguration" Content="Zakończ konfigurację czujników" Click="FinishSensorConfiguration_Click" Width="300" Grid.Column="1" VerticalAlignment="Center"/>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Wykresy ruchu czujników" FontSize="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0" Grid.RowSpan="3" Margin="20" Width="400">
+                    <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Language="pl-pl" Text="Wybierz czujniki"/></TextBlock>
+                    <StackPanel Margin="0,10" x:Name="Sensor_List2"/>
+                    <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Dane klienta:"/></TextBlock>
+                    <TextBox Text="Imię i nazwisko" TextChanged="TextBox_TextChanged"/>
+                    <TextBlock FontWeight="Bold" Margin="0,10"><Run Text="Wybierz datę pomiaru:"/></TextBlock>
+                    <DatePicker/>
+                    <Button x:Name="FilePickerButton2" Content="Drukuj PDF" Click="FilePDFButton_Click" Margin="0,10"/>
+                </StackPanel>
+                <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Margin="0,15,0,0">
                     <Grid.DataContext>
-                        <core:ColumnViewModel x:Name="ColViewModelInstance"/>
+                        <charts:RealTimeChart x:Name="XChart"/>
                     </Grid.DataContext>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <ListView Name="ColumnGrid" Grid.Row="2" Margin="4,30,12,13" ItemsSource="{Binding Columns}">
-                        <ListView.View>
-                            <GridView x:Name="grdTest">
-                                <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
-                                <GridViewColumn Header="Rodzaj" DisplayMemberBinding="{Binding Rodzaj}" Width="100"/>
-                                <GridViewColumn Header="V min" DisplayMemberBinding="{Binding Vmin}" Width="80"/>
-                                <GridViewColumn Header="V max" DisplayMemberBinding="{Binding Vmax}" Width="80"/>
-                                <GridViewColumn Header="mm od:" DisplayMemberBinding="{Binding Mmin}" Width="80"/>
-                                <GridViewColumn Header="mm do:" DisplayMemberBinding="{Binding Mmax}" Width="80"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <!-- Textboxes and labels for user details -->
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="Nazwa" Height="30" HorizontalAlignment="Left" Margin="0,0,0,0" ToolTip="Nazwa czujnika"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,7,0,0" Name="txtColName" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="Rodzaj" Height="30" HorizontalAlignment="Left" Margin="0,30,0,0" ToolTip="Impulsowy lub napięciowy"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,37,0,0" Name="txtColRodzaj" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Rodzaj, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="V min" Height="30" HorizontalAlignment="Left" Margin="0,60,0,0" ToolTip="Dolny zakres napięcia"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,67,0,0" Name="txtColVmin" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmin, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="V max" Height="30" HorizontalAlignment="Left" Margin="0,90,0,0" ToolTip="Górny zakres napięcia"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,97,0,0" Name="txtColVMax" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Vmax, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="mm od:" Height="30" HorizontalAlignment="Left" Margin="0,120,0,0" ToolTip="Minimalna mierzalna odległość"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,127,0,0" Name="txtColMmin" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Mmin, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <Label Grid.Row="1" VerticalAlignment="Top" Content="mm do:" Height="30" HorizontalAlignment="Left" Margin="0,150,0,0" ToolTip="Maksymalna mierzalna odległość"/>
-                    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,157,0,0" Name="txtColMmax" VerticalAlignment="Top" Width="178" Text="{Binding ElementName=ColumnGrid, Path=SelectedItem.Mmax, UpdateSourceTrigger=PropertyChanged}"/>
-                    <!-- Other TextBoxes and Labels for User details -->
-                    <!--<Button Content="Aktualizuj" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="310,40,0,0" Name="btnUpdate" VerticalAlignment="Top" Width="141" Command="{Binding Path=UpdateCommand}" />-->
-                    <!-- Textboxes and labels for user's City, State, and Country -->
-                    <!--<TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,143,0,0" Name="txtCity" VerticalAlignment="Top" Width="178" Text="{Binding SelectedItem.City, ElementName=ColumnGrid}"/>-->
-                    <!-- Labels for Country, City, State -->
-                    <!-- Textboxes and labels for Country, City, State -->
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="DO ZMIANY!!" FontSize="16">
-                <Grid Height="690">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="18*"/>
-                        <ColumnDefinition Width="381*"/>
-                        <ColumnDefinition Width="398*"/>
-                        <ColumnDefinition Width="398*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid Width="750" Grid.Column="2" Margin="10,10,0,134" HorizontalAlignment="Left" Grid.ColumnSpan="2">
-                        <Grid.DataContext>
-                            <charts:RealTimeChart x:Name="XChart"/>
-                        </Grid.DataContext>
-                        <lvc:CartesianChart
+                    <lvc:CartesianChart
                             SyncContext="{Binding Sync}"
                             YAxes="{Binding YAxesDistance}"
                             Series="{Binding Series}"
                             XAxes="{Binding XAxes}" />
-                    </Grid>
-                    <Grid Width="750" Grid.Column="2" Margin="10,224,0,265" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                        <Grid.DataContext>
-                            <charts:RealTimeChart x:Name="VelocityChart"/>
-                        </Grid.DataContext>
-                        <lvc:CartesianChart
+                </Grid>
+                <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,15,0,15">
+                    <Grid.DataContext>
+                        <charts:RealTimeChart x:Name="VelocityChart"/>
+                    </Grid.DataContext>
+                    <lvc:CartesianChart
                             SyncContext="{Binding Sync}"
                             Series="{Binding Series}"
                             YAxes="{Binding YAxesVelocity}"
                             XAxes="{Binding XAxes}" />
-                    </Grid>
-                    <Grid Width="750" Grid.Column="2" Margin="0,100,0,44" HorizontalAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1">
-                        <Grid.DataContext>
-                            <charts:RealTimeChart x:Name="AccelerationChart"/>
-                        </Grid.DataContext>
-                        <lvc:CartesianChart
+                </Grid>
+                <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Margin="0,15,0,15">
+                    <Grid.DataContext>
+                        <charts:RealTimeChart x:Name="AccelerationChart"/>
+                    </Grid.DataContext>
+                    <lvc:CartesianChart
                             SyncContext="{Binding Sync}"
                             Series="{Binding Series}"
                             YAxes="{Binding YAxesAcceleration}"
                             XAxes="{Binding XAxes}" />
-                    </Grid>
-                    <TextBlock
-                            Width="348" VerticalAlignment="Top" TextWrapping="Wrap" Margin="1,93,0,0" Height="30" HorizontalAlignment="Left" FontSize="16" FontWeight="Bold" Text="Nazwa urządzenia pomiarowego" Grid.Column="1"/>
-                    <TextBox
-                            Width="270" VerticalAlignment="Top" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" Opacity="0.4" Margin="2,127,0,0" HorizontalAlignment="Left" Grid.Column="1" Height="24"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="2,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="31" Width="310" FontSize="16" FontWeight="Bold" Grid.Column="1"><Run Text="Wprowadź "/><Run Text="zakres pomiarowy [mm]"/></TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="0,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="345" FontSize="16" FontWeight="Bold" Grid.Column="1"><Run Text="Wprowadź "/><Run Language="pl-pl" Text="zakres sygnału wyjściowego [V]"/></TextBlock>
-                    <TextBox HorizontalAlignment="Left" Margin="29,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.Column="1" Height="24"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="1,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" FontSize="16" Width="19" Grid.Column="1"><Run Language="pl-pl" Text="od"/></TextBlock>
-                    <TextBox HorizontalAlignment="Left" Margin="111,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.Column="1" Height="24"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="83,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" FontSize="16" Grid.Column="1" Width="20"><Run Language="pl-pl" Text="do"/></TextBlock>
-                    <TextBox HorizontalAlignment="Left" Margin="29,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.Column="1" Height="24"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="1,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" FontSize="16" Width="19" Grid.Column="1"><Run Language="pl-pl" Text="od"/></TextBlock>
-                    <TextBox HorizontalAlignment="Left" Margin="111,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46" TextChanged="TextBox_TextChanged" Opacity="0.4" Grid.Column="1" Height="24"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="83,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" FontSize="16" Grid.Column="1" Width="20"><Run Language="pl-pl" Text="do"/></TextBlock>
-                    <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,38,0,0" VerticalAlignment="Top" Width="190">
-                        <ComboBoxItem>Sensor 1</ComboBoxItem>
-                        <ComboBoxItem>Sensor 2</ComboBoxItem>
-                        <ComboBoxItem>Sensor 3</ComboBoxItem>
-                        <ComboBoxItem>Sensor 4</ComboBoxItem>
-                    </ComboBox>
-                    <Button x:Name="FinishSensorConfiguration" Content="Zakończ konfigurację czujników" Margin="10,278,10,35" Click="FinishSensorConfiguration_Click" FontSize="16" Grid.Row="1" Grid.Column="1"/>
                 </Grid>
-            </TabItem>
+            </Grid>
+        </TabItem>
 
 
-            <TabItem Header="Wykresy czujników" FontSize="16">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+        <TabItem Header="Wykres prędkości obrotowej" FontSize="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Margin="20">
-                        <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Language="pl-pl" Text="Wybierz czujniki"/></TextBlock>
-                        <StackPanel Margin="0,10" x:Name="Sensor_List"></StackPanel>
-                        <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Dane klienta:"/></TextBlock>
-                        <TextBox Text="Imię i nazwisko" TextChanged="TextBox_TextChanged"/>
-                        <TextBlock FontWeight="Bold" Margin="0,10"><Run Text="Wybierz datę pomiaru:"/></TextBlock>
-                        <DatePicker/>
-                        <Button x:Name="FilePickerButton2" Content="Drukuj PDF" Click="FilePDFButton_Click" Margin="0,10"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Grid.ColumnSpan="2" MinHeight="200" Margin="0,15">
-                        <StackPanel.DataContext>
-                            <charts:AllSensorsChart x:Name="AllSensorsChart"/>
-                        </StackPanel.DataContext>
-                        <lvc:CartesianChart
-                            MinHeight="200"
-                            Margin="0,10"
+                <StackPanel Grid.Column="0" Margin="20" Width="400">
+                    <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Language="pl-pl" Text="Wybierz czujniki"/></TextBlock>
+                    <StackPanel Margin="0,10" x:Name="Sensor_List1"/>
+                    <!-- <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Zmień zakres wykresu:"/></TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,5" TextWrapping="Wrap" TextAlignment="Center" Grid.Column="0"><Run Language="pl-pl" Text="od"/></TextBlock>
+                            <TextBox x:Name="AllSensorToFrom" Grid.Column="1"/>
+                            <TextBlock Margin="0,5" TextWrapping="Wrap" TextAlignment="Center" Grid.Column="2"><Run Language="pl-pl" Text="do"/></TextBlock>
+                            <TextBox x:Name="AllSensorToField" Grid.Column="3"/>
+                        </Grid>
+                        <Button x:Name="AllSensorChangeChartRange" Content="Zmień zakres wykresu" Click="AllSensorChangeChartRange_Click" Margin="0,10"/> -->
+                    <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Dane klienta:"/></TextBlock>
+                    <TextBox Text="Imię i nazwisko" TextChanged="TextBox_TextChanged"/>
+                    <TextBlock FontWeight="Bold" Margin="0,10"><Run Text="Wybierz datę pomiaru:"/></TextBlock>
+                    <DatePicker/>
+                    <Button x:Name="FilePickerButton1" Content="Drukuj PDF" Click="FilePDFButton_Click" Margin="0,10"/>
+                </StackPanel>
+                <Grid Grid.Column="1" Grid.ColumnSpan="2" Margin="0,15">
+                    <Grid.DataContext>
+                        <charts:AllSensorsChart x:Name="AllSensorsChart"/>
+                    </Grid.DataContext>
+                    <lvc:CartesianChart
                             Series="{Binding MovementSeries}"
                             XAxes="{Binding XAxes}"/>
-
-                        <lvc:CartesianChart
-                            MinHeight="200"
-                            Margin="0,10"
-                            Series="{Binding VelocitySeries}"
-                            XAxes="{Binding XAxes}"/>
-
-                        <lvc:CartesianChart
-                            MinHeight="200"
-                            Margin="0,10"
-                            Series="{Binding AccelerationSeries}"
-                            XAxes="{Binding XAxes}"/>
-                    </StackPanel>
                 </Grid>
-            </TabItem>
-            
-        </TabControl>
-    </StackPanel>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>
