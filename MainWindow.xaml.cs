@@ -52,15 +52,6 @@ namespace CTP
         public void ConfigureSensorsButton_Click(object sender, RoutedEventArgs e)
         {
             myTabControl.SelectedIndex = 1;
-
-            XChart.ClearChart();
-            VelocityChart.ClearChart();
-            AccelerationChart.ClearChart();
-
-            XChart.AllValues = data.GetValues(1);
-            VelocityChart.AllValues = data.GetVelocityValues(1);
-            AccelerationChart.AllValues = data.GetAccelerationValues(1);
-
             /*Trace.WriteLine(String.Join(", ", _timeValues));*/
         }
 
@@ -94,11 +85,18 @@ namespace CTP
             SensorList1.Children.Clear();
             SensorList2.Children.Clear();
             AllSensorsChart.ClearAllSeries();
+            XChart.ClearChart();
+            VelocityChart.ClearChart();
+            AccelerationChart.ClearChart();
+
             for (int i = 1; i < data.Table.Columns.Count; i++)
             {
                 AddSensorToList("Sensor " + i, SensorList1);
                 AddSensorToList("Sensor " + i, SensorList2);
                 AllSensorsChart.SetSensorValues(i-1, data.GetValues(i), "Sensor " + i);
+                XChart.SetSensorValues(i - 1, data.GetValues(i), "Sensor " + i);
+                VelocityChart.SetSensorValues(i - 1, data.GetVelocityValues(i), "Sensor " + i);
+                AccelerationChart.SetSensorValues(i - 1, data.GetAccelerationValues(i), "Sensor " + i);
             }
         }
 
@@ -107,8 +105,16 @@ namespace CTP
             string? Content = GetCheckboxContent(sender);
 
             if (Content == null) return;
-
-            AllSensorsChart.ShowSensor(Content);
+            if(myTabControl.SelectedIndex == 3)
+            {
+                AllSensorsChart.ShowSensor(Content);
+            }
+            else
+            {
+                XChart.ShowSensor(Content);
+                VelocityChart.ShowSensor(Content);
+                AccelerationChart.ShowSensor(Content);
+            }
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -117,7 +123,16 @@ namespace CTP
 
             if (Content == null) return;
 
-            AllSensorsChart.HideSensor(Content);
+            if (myTabControl.SelectedIndex == 3)
+            {
+                AllSensorsChart.HideSensor(Content);
+            }
+            else
+            {
+                XChart.HideSensor(Content);
+                VelocityChart.HideSensor(Content);
+                AccelerationChart.HideSensor(Content);
+            }
         }
 
         private static string? GetCheckboxContent(object sender)

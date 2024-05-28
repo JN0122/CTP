@@ -13,24 +13,17 @@ namespace CTP.Charts;
 
 public partial class RealTimeChart : ObservableObject
 {
-    private readonly List<DateTimePoint> _values = new();
+    private readonly List<ObservableCollection<DateTimePoint>> _values = new() { new(), new(), new(), new() };
     private readonly DateTimeAxis _customAxis;
 
     public int VisibleElements { get; set; } = 350;
 
     public RealTimeChart()
     {
-        Series = new ObservableCollection<ISeries>
+        for (int i = 0; i < _values.Count; i++)
         {
-            new LineSeries<DateTimePoint>
-            {
-                Values = _values,
-                Fill = null,
-                GeometryFill = null,
-                GeometryStroke = null,
-            }
-
-        };
+            Series.Add(CreateSeries(_values[i]));
+        }
 
         _customAxis = new DateTimeAxis(TimeSpan.FromSeconds(1), Formatter)
         {
@@ -71,7 +64,18 @@ public partial class RealTimeChart : ObservableObject
         _ = ReadData();
     }
 
-    public ObservableCollection<ISeries> Series { get; set; }
+    static ISeries CreateSeries(ObservableCollection<DateTimePoint> _seriesValues)
+    {
+        return new LineSeries<DateTimePoint>()
+        {
+            Values = _seriesValues,
+            Fill = null,
+            GeometryFill = null,
+            GeometryStroke = null,
+        };
+    }
+
+    public ObservableCollection<ISeries> Series { get; set; } = new();
 
     public Axis[] XAxes { get; set; }
 
@@ -85,12 +89,23 @@ public partial class RealTimeChart : ObservableObject
 
     public bool IsReading { get; set; } = true;
 
-    public List<float> AllValues { get; set; } = new();
+    public List<List<float>> AllValues { get; set; } = new() { new(), new(), new(), new() };
+
     private int i = 0;
 
     public void ClearChart()
     {
-        _values.Clear();
+        for(int j = 0; j < _values.Count; j++)
+        {
+            _values[j].Clear();
+            AllValues[j].Clear();
+        }
+    }
+ 
+    public void SetSensorValues(int index, List<float> Values, string SensorName)
+    {
+        AllValues[index] = Values;
+        Series[index].Name = SensorName;
     }
 
     private async Task ReadData()
@@ -99,15 +114,17 @@ public partial class RealTimeChart : ObservableObject
         {
             await Task.Delay(100);
 
-            if (AllValues.Count == 0) continue;
+            if (AllValues[0].Count == 0) continue;
 
-            if (i >= AllValues.Count) i = 0;
+            if (i >= AllValues[0].Count) i = 0;
 
             lock (Sync)
             {
-                _values.Add(new DateTimePoint(DateTime.Now, AllValues[i]));
-                if (_values.Count > VisibleElements) _values.RemoveAt(0);
-
+                for(int j = 0; j < _values.Count && AllValues[0].Count == AllValues[j].Count; j++)
+                {
+                    _values[j].Add(new DateTimePoint(DateTime.Now, AllValues[j][i]));
+                    if (_values[j].Count > VisibleElements) _values[j].RemoveAt(0);
+                }
                 _customAxis.CustomSeparators = GetSeparators();
             }
             i++;
@@ -134,5 +151,26 @@ public partial class RealTimeChart : ObservableObject
         return secsAgo < 1
             ? "teraz"
             : $"{secsAgo:N0} sekund temu";
+    }
+
+    public void ShowSensor(string SensorName)
+    {
+        ChangeSensorVisibility(SensorName, true);
+    }
+
+    public void HideSensor(string SensorName)
+    {
+        ChangeSensorVisibility(SensorName, false);
+    }
+
+    private void ChangeSensorVisibility(string SensorName, bool Show)
+    {
+        for (int i = 0; i < _values.Count; i++)
+        {
+            if (Series[i].Name != SensorName) continue;
+            Series[i].IsVisible = Show;
+            return;
+        }
+        throw new Exception("Sensor does not exists on chart!");
     }
 }
