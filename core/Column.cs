@@ -14,8 +14,8 @@ namespace CTP.core
 
         private string name;
         private string rodzaj;
-        private float vmin;
-        private float vmax;
+        private float vmin = 5;
+        private float vmax = 45;
         private float mmin;
         private float mmax;
 

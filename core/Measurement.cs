@@ -45,12 +45,36 @@ namespace CTP.core
             return Values;
         }
 
+        public List<float> GetDistanceValues(int ColumnIndex)
+        {
+            List<float> Values = new();
+            ColumnViewModel allColumns = new();
+
+            allColumns.AddColumns(_instance);
+
+            List<Column> providedColumns = allColumns.GetColumns();
+            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
+
+            foreach (DataRow Row in newTable.Rows)
+            {
+                Values.Add(Row.Field<float>(ColumnIndex));
+            }
+            return Values;
+        }
+
         public List<float> GetVelocityValues(int ColumnIndex)
         {
             List<float> Values = new();
-            foreach (DataRow Row in this.Table.Rows)
+            ColumnViewModel allColumns = new();
+
+            allColumns.AddColumns(_instance);
+
+            List<Column> providedColumns = allColumns.GetColumns();
+            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
+
+            foreach (DataRow Row in newTable.Rows)
             {
-                int index = Table.Rows.IndexOf(Row);
+                int index = newTable.Rows.IndexOf(Row);
                 Values.Add(CalculateVelocity(index));
             }
             return Values;
@@ -59,9 +83,16 @@ namespace CTP.core
         public List<float> GetAccelerationValues(int ColumnIndex)
         {
             List<float> Values = new();
-            foreach (DataRow Row in this.Table.Rows)
+            ColumnViewModel allColumns = new();
+
+            allColumns.AddColumns(_instance);
+
+            List<Column> providedColumns = allColumns.GetColumns();
+            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
+
+            foreach (DataRow Row in newTable.Rows)
             {
-                int index = Table.Rows.IndexOf(Row);
+                int index = newTable.Rows.IndexOf(Row);
                 Values.Add(CalculateAcceleration(index));
             }
             return Values;
@@ -182,7 +213,8 @@ namespace CTP.core
                 {
                     case "Napięciowy":
 
-                        float scale = (ColumnsProvided[i].Mmax - ColumnsProvided[i].Mmin) / (ColumnsProvided[i].Vmax - ColumnsProvided[i].Vmin);
+                        //float scale = (ColumnsProvided[i].Mmax - ColumnsProvided[i].Mmin) / (ColumnsProvided[i].Vmax - ColumnsProvided[i].Vmin);
+                        float scale = (6 - ColumnsProvided[i].Mmin) / (2 - ColumnsProvided[i].Vmin);
                         float newval = 0;
 
                         foreach (DataRow row in originalData.Rows)

@@ -58,7 +58,7 @@ namespace CTP
         {
             myTabControl.SelectedIndex = 1;
 
-            XChart.AllValues = data.GetValues(1);
+            XChart.AllValues = data.GetDistanceValues(1);
 
             VelocityChart.AllValues = data.GetVelocityValues(1);
 
