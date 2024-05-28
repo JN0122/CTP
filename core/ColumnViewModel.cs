@@ -25,7 +25,7 @@ namespace CTP.core
 
             foreach (DataColumn column in dt.Table.Columns)
             {
-                Column col = new Column(column.ColumnName, "Napięciowy" , 0, 0, 0, 0);
+                Column col = new Column(column.ColumnName, "nieznany" , 0, 0, 0, 0);
 
                 _ColumnsList.Add(col);
                 CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, col));
@@ -43,11 +43,6 @@ namespace CTP.core
         public int GetItemListName_Debug() 
         {
             return _ColumnsList.Count;
-        }
-
-        public List<Column> GetColumns()
-        {
-            return _ColumnsList.ToList();
         }
 
         public void SwapData(Measurement NewData)

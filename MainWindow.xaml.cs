@@ -32,42 +32,11 @@ namespace CTP
                 if (FilePath == "NullPath") return;
                 string FileContentRaw = FilePicker.GetFileContent(FilePath);
                 data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
- VoltsToMmGraphs
-
-                try
-                {
-                    ColViewModelInstance.SwapData(data);
-                }
-
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
-                RawChart.AllValues = data.GetValues(1);
-
-
- master
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
- VoltsToMmGraphs
-            }
-
-        public void GraphsDrawerButton_Click(object sender, RoutedEventArgs e)
-        {
-            myTabControl.SelectedIndex = 1;
-
-            XChart.AllValues = data.GetDistanceValues(1);
-
-            VelocityChart.AllValues = data.GetVelocityValues(1);
-
-            AccelerationChart.AllValues = data.GetAccelerationValues(1);
-            //NumberOfColumns = data.ColumnsCount();
-
 
             try
             {
@@ -83,7 +52,6 @@ namespace CTP
         public void ConfigureSensorsButton_Click(object sender, RoutedEventArgs e)
         {
             myTabControl.SelectedIndex = 1;
- master
             /*Trace.WriteLine(String.Join(", ", _timeValues));*/
         }
 
