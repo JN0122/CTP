@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
@@ -75,10 +74,8 @@ namespace CTP.core
 
             foreach (DataRow Row in newTable.Rows)
             {
-VoltsToMmGraphs
                 int index = newTable.Rows.IndexOf(Row);
                 Values.Add(CalculateVelocity(index));
- master
             }
             return Values;
         }
@@ -95,15 +92,13 @@ VoltsToMmGraphs
 
             foreach (DataRow Row in newTable.Rows)
             {
- VoltsToMmGraphs
                 int index = newTable.Rows.IndexOf(Row);
                 Values.Add(CalculateAcceleration(index));
- master
             }
             return Values;
         }
 
-        public float CalculateVelocity(int index , int ColumnIndex)
+        public float CalculateVelocity(int index)
         {
             double[] xValues = new double[10];
             double[] yValues = new double[10];
@@ -120,7 +115,7 @@ VoltsToMmGraphs
                 else
                 {
                     yValues[i] = Table.Rows[index + offset].Field<Single>(0);
-                    xValues[i] = Table.Rows[index + offset].Field<Single>(ColumnIndex);
+                    xValues[i] = Table.Rows[index + offset].Field<Single>(1);
                 }
 
                 offset++;
@@ -129,7 +124,7 @@ VoltsToMmGraphs
             return Reglinp.FitLine(yValues, xValues);
         }
 
-        public float CalculateAcceleration(int index, int ColumnIndex)
+        public float CalculateAcceleration(int index)
         {
             double[] xValues = new double[10];
             double[] yValues = new double[10];
@@ -146,7 +141,7 @@ VoltsToMmGraphs
                 else
                 {
                     yValues[i] = Table.Rows[index + offset].Field<Single>(0);
-                    xValues[i] = CalculateVelocity(index + offset, ColumnIndex);
+                    xValues[i] = CalculateVelocity(index + offset);
                 }
 
                 offset++;

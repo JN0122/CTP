@@ -1,9 +1,4 @@
 ﻿using CTP.core;
-using LiveChartsCore;
-using LiveChartsCore.Defaults;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.VisualElements;
-
 using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -26,13 +21,18 @@ namespace CTP
 
         public void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
+            
             try
             {
+                //MessageBox.Show(ColViewModelInstance.GetItemListName_Debug().ToString(), "Liczba", MessageBoxButton.OK, MessageBoxImage.Error);
+
                 string FilePath = FilePicker.GetFilePath();
+
                 if (FilePath == "NullPath") return;
+
                 string FileContentRaw = FilePicker.GetFileContent(FilePath);
+
                 data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
- VoltsToMmGraphs
 
                 try
                 {
@@ -46,15 +46,12 @@ namespace CTP
 
                 RawChart.AllValues = data.GetValues(1);
 
-
- master
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
- VoltsToMmGraphs
             }
 
         public void GraphsDrawerButton_Click(object sender, RoutedEventArgs e)
@@ -68,22 +65,6 @@ namespace CTP
             AccelerationChart.AllValues = data.GetAccelerationValues(1);
             //NumberOfColumns = data.ColumnsCount();
 
-
-            try
-            {
-                ColViewModelInstance.SwapData(data);
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        public void ConfigureSensorsButton_Click(object sender, RoutedEventArgs e)
-        {
-            myTabControl.SelectedIndex = 1;
- master
             /*Trace.WriteLine(String.Join(", ", _timeValues));*/
         }
 
@@ -92,87 +73,24 @@ namespace CTP
 
         }
 
-        private void AddSensorToList(string Content, StackPanel SensorList, bool IsChecked = true)
-        {
-            CheckBox sensor_checkbox = new()
-            {
-                Content = Content,
-                IsChecked = IsChecked
-            };
-            sensor_checkbox.Checked += CheckBox_Checked;
-            sensor_checkbox.Unchecked += CheckBox_Unchecked;
-            SensorList.Children.Add(sensor_checkbox);
-        }
-
         private void FilePDFButton_Click(object sender, RoutedEventArgs e)
         {
-            AllSensorsChart.ShowSensor("Sensor 1");
+
         }
         
         private void FinishSensorConfiguration_Click(object sender, RoutedEventArgs e)
         {
             myTabControl.SelectedIndex = 2;
-            AllSensorsChart.SetLabels(data.GetValues(0));
-
-            SensorList1.Children.Clear();
-            SensorList2.Children.Clear();
-            AllSensorsChart.ClearAllSeries();
-            XChart.ClearChart();
-            VelocityChart.ClearChart();
-            AccelerationChart.ClearChart();
-
-            for (int i = 1; i < data.Table.Columns.Count; i++)
-            {
-                AddSensorToList("Sensor " + i, SensorList1);
-                AddSensorToList("Sensor " + i, SensorList2);
-                AllSensorsChart.SetSensorValues(i-1, data.GetValues(i), "Sensor " + i);
-                XChart.SetSensorValues(i - 1, data.GetValues(i), "Sensor " + i);
-                VelocityChart.SetSensorValues(i - 1, data.GetVelocityValues(i), "Sensor " + i);
-                AccelerationChart.SetSensorValues(i - 1, data.GetAccelerationValues(i), "Sensor " + i);
-            }
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            string? Content = GetCheckboxContent(sender);
 
-            if (Content == null) return;
-            if(myTabControl.SelectedIndex == 3)
-            {
-                AllSensorsChart.ShowSensor(Content);
-            }
-            else
-            {
-                XChart.ShowSensor(Content);
-                VelocityChart.ShowSensor(Content);
-                AccelerationChart.ShowSensor(Content);
-            }
         }
 
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-            string? Content = GetCheckboxContent(sender);
 
-            if (Content == null) return;
-
-            if (myTabControl.SelectedIndex == 3)
-            {
-                AllSensorsChart.HideSensor(Content);
-            }
-            else
-            {
-                XChart.HideSensor(Content);
-                VelocityChart.HideSensor(Content);
-                AccelerationChart.HideSensor(Content);
-            }
-        }
-
-        private static string? GetCheckboxContent(object sender)
-        {
-            if (sender.GetType() != typeof(CheckBox)) return null;
-            CheckBox sensor_checkbox = (CheckBox)sender;
-
-            return (string)sensor_checkbox.Content;
         }
     }
 }
