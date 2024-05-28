@@ -17,6 +17,8 @@ namespace CTP.core
         public float MinTime = 0;
         public float MaxTime = 0;
 
+        //merge test
+
         private Measurement() { }
 
         private static Measurement? _instance;
