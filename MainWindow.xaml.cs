@@ -266,7 +266,7 @@ namespace CTP
                 AddSensorToList("Sensor " + i, SensorList1);
                 AddSensorToList("Sensor " + i, SensorList2);
                 AllSensorsChart.SetSensorValues(i-1, data.GetValues(i), "Sensor " + i);
-                XChart.SetSensorValues(i - 1, data.GetValues(i), "Sensor " + i);
+                XChart.SetSensorValues(i - 1, data.GetDistanceValues(i), "Sensor " + i);
                 VelocityChart.SetSensorValues(i - 1, data.GetVelocityValues(i), "Sensor " + i);
                 AccelerationChart.SetSensorValues(i - 1, data.GetAccelerationValues(i), "Sensor " + i);
             }

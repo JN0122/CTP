@@ -9,7 +9,7 @@ using System.Windows.Markup;
 
 namespace CTP.core
 {
-    internal class Column : INotifyPropertyChanged
+    public class Column : INotifyPropertyChanged
     {
 
         private string name;

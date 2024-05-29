@@ -40,6 +40,11 @@ namespace CTP.core
             }
         }
 
+        public List<Column> GetColumns()
+        {
+            return _ColumnsList.ToList();
+        }
+
         public int GetItemListName_Debug() 
         {
             return _ColumnsList.Count;

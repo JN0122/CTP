@@ -45,10 +45,35 @@ namespace CTP.core
             return Values;
         }
 
+        public List<float> GetDistanceValues(int ColumnIndex)
+        {
+            List<float> Values = new();
+            ColumnViewModel allColumns = new();
+
+            allColumns.AddColumns(_instance);
+
+            List<Column> providedColumns = allColumns.GetColumns();
+            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
+
+            foreach (DataRow Row in newTable.Rows)
+            {
+                Values.Add(Row.Field<float>(ColumnIndex));
+            }
+            return Values;
+        }
+
+
         public List<float> GetVelocityValues(int ColumnIndex)
         {
             List<float> Values = new();
-            foreach (DataRow Row in this.Table.Rows)
+            ColumnViewModel allColumns = new();
+
+            allColumns.AddColumns(_instance);
+
+            List<Column> providedColumns = allColumns.GetColumns();
+            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
+
+            foreach (DataRow Row in newTable.Rows)
             {
                 int index = Table.Rows.IndexOf(Row);
                 Values.Add(CalculateVelocity(index, ColumnIndex));
@@ -59,7 +84,14 @@ namespace CTP.core
         public List<float> GetAccelerationValues(int ColumnIndex)
         {
             List<float> Values = new();
-            foreach (DataRow Row in this.Table.Rows)
+            ColumnViewModel allColumns = new();
+
+            allColumns.AddColumns(_instance);
+
+            List<Column> providedColumns = allColumns.GetColumns();
+            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
+
+            foreach (DataRow Row in newTable.Rows)
             {
                 int index = Table.Rows.IndexOf(Row);
                 Values.Add(CalculateAcceleration(index, ColumnIndex));
@@ -118,6 +150,76 @@ namespace CTP.core
 
             return Reglinp.FitLine(yValues, xValues);
         }
+
+        public static DataTable VtoMm2(DataTable originalData, List<Column> ColumnsProvided, bool truncateToMmHigh = true)
+        {
+
+            if (originalData.Columns.Count != ColumnsProvided.Count)
+            {
+                throw new ArgumentException("Column count mismatch in VToMM conversion");
+            }
+
+
+            //create and initialize a returnTable
+            DataTable returnTable = new DataTable();
+
+            for (int i = 0; i < originalData.Columns.Count; i++)
+            {
+                returnTable.Columns.Add(ColumnsProvided[i].Name, typeof(string));
+            }
+
+            DataRow[] AuxilliaryRowArray;
+
+            for (int i = 0; i < originalData.Columns.Count; i++)
+            {
+                //nie chcemy edytowac kolumn ktore nie sa typu double
+                if (originalData.Columns[i].DataType == typeof(string)) break;
+
+
+                switch (ColumnsProvided[i].Rodzaj)
+                {
+                    case "Napięciowy":
+
+                        float scale = (float)((ColumnsProvided[i].Mmax - ColumnsProvided[i].Mmin) / (ColumnsProvided[i].Vmax - ColumnsProvided[i].Vmin));
+                        float newval = 0;
+
+                        foreach (DataRow row in originalData.Rows)
+                        {
+                            //Jezus maria
+                            newval = (float)(row.Field<float>(i) - ColumnsProvided[i].Vmin) * scale;
+                            if (truncateToMmHigh == true && newval > ColumnsProvided[i].Mmax) newval = (float)ColumnsProvided[i].Mmax;
+                            row.SetField<float>(originalData.Columns[i], newval);
+                            //returnTable.Rows.Add(newval);
+
+                        }
+
+                        break;
+                    case "Impulsowy":
+                        //AuxilliaryRowArray = ImpulseToMm(originalData.Select(originalData.Columns[i].ColumnName), ColumnsProvided[i]);
+                        break;
+                    default:
+                        //TODO
+                        break;
+                }
+
+
+            }
+
+            return originalData;
+        }
+
+        static void ImpulseToMm(DataRow[] Rows, Column Col, int IndexLast, int IndexFirst, int VConst, bool truncateOutOfRangeValues = true)
+        {
+            //średnica elementu obrotowego d
+
+
+            //return new DataRow[Rows.Length];
+        }
+
+        //static DataRow[] SignalToMm(DataRow[] Rows, Column Col, bool truncateOutOfRangeValues = true)
+        //{
+        //    return new DataRow[Rows.Length];
+        //}
 
         public int ColumnsCount()
         {
