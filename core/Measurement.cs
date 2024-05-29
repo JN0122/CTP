@@ -1,6 +1,7 @@
 ﻿using MathNet.Numerics;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
@@ -17,6 +18,7 @@ namespace CTP.core
 
         public float MinTime = 0;
         public float MaxTime = 0;
+        public ObservableCollection<Column> _ColumnsList { get; set; } = new ObservableCollection<Column>();
 
         private Measurement() { }
 
@@ -49,16 +51,14 @@ namespace CTP.core
         public List<float> GetDistanceValues(int ColumnIndex)
         {
             List<float> Values = new();
-            ColumnViewModel allColumns = new();
+            float scale = calculateScale(_ColumnsList[ColumnIndex]);
+            string ColumnName = this.Table.Columns[ColumnIndex].ColumnName;
 
-            allColumns.AddColumns(_instance);
-
-            List<Column> providedColumns = allColumns.GetColumns();
-            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
-
-            foreach (DataRow Row in newTable.Rows)
+            foreach (DataRow Row in this.Table.Rows)
             {
-                Values.Add(Row.Field<float>(ColumnIndex));
+                Trace.WriteLine((float)Row[ColumnName]);
+                Row[ColumnName] = (float)Row[ColumnName] * scale;
+                Values.Add((float)Row[ColumnName]);
             }
             return Values;
         }
@@ -66,16 +66,10 @@ namespace CTP.core
         public List<float> GetVelocityValues(int ColumnIndex)
         {
             List<float> Values = new();
-            ColumnViewModel allColumns = new();
 
-            allColumns.AddColumns(_instance);
-
-            List<Column> providedColumns = allColumns.GetColumns();
-            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
-
-            foreach (DataRow Row in newTable.Rows)
+            foreach (DataRow Row in this.Table.Rows)
             {
-                int index = newTable.Rows.IndexOf(Row);
+                int index = this.Table.Rows.IndexOf(Row);
                 Values.Add(CalculateVelocity(index, ColumnIndex));
             }
             return Values;
@@ -84,12 +78,8 @@ namespace CTP.core
         public List<float> GetAccelerationValues(int ColumnIndex)
         {
             List<float> Values = new();
-            ColumnViewModel allColumns = new();
 
-            allColumns.AddColumns(_instance);
-
-            List<Column> providedColumns = allColumns.GetColumns();
-            DataTable newTable = VtoMm2(this.Table, providedColumns, true);
+            DataTable newTable = VtoMm2(this.Table, _ColumnsList.ToList(), true);
 
             foreach (DataRow Row in newTable.Rows)
             {
@@ -156,6 +146,12 @@ namespace CTP.core
             return Table.Columns.Count;
         }
 
+        public float calculateScale(Column column)
+        {
+            return (column.Mmax - column.Mmin) / (column.Vmax - column.Vmin);
+
+        }
+
         [Obsolete("Use VToMM2 instead")]
         public static DataTable VtoMm(double VLow, double VHigh, double MmLow, double MmHigh, DataTable originalData, bool truncateToMmHigh = false)
         {
@@ -199,16 +195,15 @@ namespace CTP.core
 
             for (int i = 0; i < originalData.Columns.Count; i++)
             {
-                returnTable.Columns.Add(ColumnsProvided[i].Name, typeof(string));
+                returnTable.Columns.Add(ColumnsProvided[i].Name, typeof(float));
             }
 
             DataRow[] AuxilliaryRowArray;
 
-            for (int i = 0; i < originalData.Columns.Count; i++)
+            for (int i = 1; i < originalData.Columns.Count; i++)
             {
                 //nie chcemy edytowac kolumn ktore nie sa typu double
                 if (originalData.Columns[i].DataType == typeof(string)) break;
-
 
                 switch (ColumnsProvided[i].Rodzaj)
                 {

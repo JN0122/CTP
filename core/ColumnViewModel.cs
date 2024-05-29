@@ -12,42 +12,42 @@ namespace CTP.core
 {
     internal class ColumnViewModel: INotifyCollectionChanged
     {
-        //private IList<Column> _ColumnsList { get; set; } = new List<Column>();
-        private ObservableCollection<Column> _ColumnsList { get; set; } = new ObservableCollection<Column>();
+        //private IList<Column> _measurement._ColumnsList { get; set; } = new List<Column>();
 
         public ColumnViewModel()
         {
 
         }
 
+        private readonly Measurement _measurement = Measurement.GetInstance();
+
         public void AddColumns(Measurement dt) 
         {
-
-            foreach (DataColumn column in dt.Table.Columns)
+            for (int i = 0; i < dt.Table.Columns.Count; i++)
             {
-                Column col = new Column(column.ColumnName, "Napięciowy" , 0, 0, 0, 0);
+                Column col = new Column(dt.Table.Columns[i].ColumnName, "Napięciowy" , 0, 0, 0, 0);
 
-                _ColumnsList.Add(col);
+                _measurement._ColumnsList.Add(col);
                 CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, col));
             }
         }
         public void ClearColumns()
         {
-            foreach(Column element in _ColumnsList.ToList())
+            foreach(Column element in _measurement._ColumnsList.ToList())
             {
-                _ColumnsList.Remove(element);
+                _measurement._ColumnsList.Remove(element);
                 //CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, element));
             }
         }
 
         public int GetItemListName_Debug() 
         {
-            return _ColumnsList.Count;
+            return _measurement._ColumnsList.Count;
         }
 
         public List<Column> GetColumns()
         {
-            return _ColumnsList.ToList();
+            return _measurement._ColumnsList.ToList();
         }
 
         public void SwapData(Measurement NewData)
@@ -61,14 +61,14 @@ namespace CTP.core
 
         //public IList<Column> Columns
         //{
-        //    get { return _ColumnsList; }
-        //    set { _ColumnsList = value; }
+        //    get { return _measurement._ColumnsList; }
+        //    set { _measurement._ColumnsList = value; }
         //}
 
         public ObservableCollection<Column> Columns
         {
-            get { return _ColumnsList; }
-            set { _ColumnsList = value; }
+            get { return _measurement._ColumnsList; }
+            set { _measurement._ColumnsList = value; }
         }
 
         private ICommand mUpdater;

@@ -13,7 +13,7 @@ namespace CTP.core
         public DataScaler() { }
 
         // default argument jest tymczasowo, do poprawienia
-        public static DataTable ScaleData(DataTable OriginalData, int TargetDatapoints = 250)
+        public static DataTable ScaleData(DataTable OriginalData, int TargetDatapoints = 500)
         {
 
             decimal OriginalDataPointsCount = OriginalData.Rows.Count;
