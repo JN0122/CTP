@@ -44,30 +44,29 @@ namespace CTP
                 if (FilePath == "NullPath") return;
                 string FileContentRaw = FilePicker.GetFileContent(FilePath);
                 data.SetDataTable(DataScaler.ScaleData(Parser.Parse(FileContentRaw)));
-
                 // Wywołanie metody DisplayLoadedFilePath z nazwą zaczytanego pliku
                 DisplayLoadedFilePath(FilePath);
+
+                try
+                {
+                    ColViewModelInstance.SwapData(data);
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            try
-            {
-                ColViewModelInstance.SwapData(data);
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "ItemLoadError", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         public void ConfigureSensorsButton_Click(object sender, RoutedEventArgs e)
         {
             myTabControl.SelectedIndex = 1;
-            /*Trace.WriteLine(String.Join(", ", _timeValues));*/
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -88,67 +87,10 @@ namespace CTP
         }
 
 
-        /*
-        private void FilePDFButton_Click(object sender, RoutedEventArgs e)
-        {
-            //AllSensorsChart.ShowSensor("Sensor 1");
-
-            MemoryStream lMemoryStream = new MemoryStream();
-            Package package = Package.Open(lMemoryStream, FileMode.Create);
-            XpsDocument doc = new XpsDocument(package);
-            XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
-
-            // This is your window
-            writer.Write(Content2);
-
-            doc.Close();
-            package.Close();
-
-            // Convert 
-            MemoryStream outStream = new MemoryStream();
-            PdfSharp.Xps.XpsConverter.Convert(lMemoryStream, outStream, false);
-
-            // Write pdf file - path 
-            //FileStream fileStream = new FileStream("C:\\Users\\puech\\Documents\\ctp_proj\\test.pdf", FileMode.Create);
-            //outStream.CopyTo(fileStream);
-
-
-            // Display Save File Dialog
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "PDF Files (*.pdf)|*.pdf",
-                Title = "Save PDF File"
-            };
-
-            if (saveFileDialog.ShowDialog() == true) // Check if the user pressed 'Save'
-            {
-                // Write PDF to selected file path
-                using (FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write))
-                {
-                    outStream.Seek(0, SeekOrigin.Begin); // Ensure the stream position is at the beginning
-                    outStream.CopyTo(fileStream);
-                }
-
-                // Show success message (optional)
-                MessageBox.Show("PDF file saved successfully!");
-            }
-
-
-            // Clean up
-            outStream.Flush();
-            outStream.Close();
-            //fileStream.Flush(); - do sztywnego
-            //fileStream.Close(); - do sztywnego
-
-        }
-        */
-
-
         void DisplayLoadedFilePath(string filePath)
         {
             loaded_file.Text = $"Załadowano plik:   {System.IO.Path.GetFileName(filePath)}";
         }
-
 
 
         private void FilePDFButton_Click(object sender, RoutedEventArgs e)
@@ -251,6 +193,7 @@ namespace CTP
 
         private void FinishSensorConfiguration_Click(object sender, RoutedEventArgs e)
         {
+            List<float> DistanceValues;
             myTabControl.SelectedIndex = 2;
             AllSensorsChart.SetLabels(data.GetValues(0));
 
@@ -263,10 +206,11 @@ namespace CTP
 
             for (int i = 1; i < data.Table.Columns.Count; i++)
             {
+                DistanceValues = data.GetDistanceValues(i);
                 AddSensorToList("Sensor " + i, SensorList1);
                 AddSensorToList("Sensor " + i, SensorList2);
-                AllSensorsChart.SetSensorValues(i-1, data.GetValues(i), "Sensor " + i);
-                XChart.SetSensorValues(i - 1, data.GetValues(i), "Sensor " + i);
+                AllSensorsChart.SetSensorValues(i-1, DistanceValues, "Sensor " + i);
+                XChart.SetSensorValues(i - 1, DistanceValues, "Sensor " + i);
                 VelocityChart.SetSensorValues(i - 1, data.GetVelocityValues(i), "Sensor " + i);
                 AccelerationChart.SetSensorValues(i - 1, data.GetAccelerationValues(i), "Sensor " + i);
             }

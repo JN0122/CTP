@@ -9,17 +9,17 @@ using System.Windows.Markup;
 
 namespace CTP.core
 {
-    internal class Column : INotifyPropertyChanged
+    public class Column : INotifyPropertyChanged
     {
 
         private string name;
         private string rodzaj;
-        private double vmin;
-        private double vmax;
-        private double mmin;
-        private double mmax;
+        private float vmin = 5;
+        private float vmax = 45;
+        private float mmin;
+        private float mmax;
 
-        public Column(string name, string rodzaj, double vmin, double vmax, double mmin, double mmax)
+        public Column(string name, string rodzaj, float vmin, float vmax, float mmin, float mmax)
         {
             this.name = name;
             this.rodzaj = rodzaj;
@@ -57,7 +57,7 @@ namespace CTP.core
             }
         }
 
-        public double Vmin
+        public float Vmin
         {
             get
             {
@@ -71,7 +71,7 @@ namespace CTP.core
             }
         }
 
-        public double Vmax
+        public float Vmax
         {
             get
             {
@@ -85,7 +85,7 @@ namespace CTP.core
             }
         }
 
-        public double Mmin
+        public float Mmin
         {
             get
             {
@@ -99,7 +99,7 @@ namespace CTP.core
             }
         }
 
-        public double Mmax
+        public float Mmax
         {
             get
             {
