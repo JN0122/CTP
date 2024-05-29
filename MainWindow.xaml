@@ -82,7 +82,7 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="Wykresy ruchu czujników" FontSize="16">
+        <TabItem Header="Wykresy czujników w czasie rzeczywistym" FontSize="16">
             <Grid x:Name="Content2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -95,7 +95,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="0" Grid.RowSpan="3" Margin="20" Width="400">
-                    <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Text="Wybierz czujniki"/><Run Text=" "/><Run Language="pl-pl" Text="- "/><Run Text="wykres"/><Run Language="pl-pl" Text="y"/><Run Text=" ruchu"/></TextBlock>
+                    <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Text="Wybierz czujniki"/><Run Text=" "/><Run Language="pl-pl" Text="- "/><Run Text="wykresy w czasie rzeczywistym"/></TextBlock>
                     <StackPanel Margin="0,10" x:Name="SensorList1"/>
                     <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Dane klienta:"/></TextBlock>
                     <TextBox Text="Imię i nazwisko" TextChanged="TextBox_TextChanged"/>
@@ -137,7 +137,7 @@
         </TabItem>
 
 
-        <TabItem Header="Wykres prędkości obrotowej" FontSize="16">
+        <TabItem Header="Wykres czujników" FontSize="16">
             <Grid x:Name="Content3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -146,7 +146,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Margin="20" Width="400">
-                    <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Text="Wybierz czujniki"/><Run Language="pl-pl" Text=" - wykresy prędkości obrotowej"/></TextBlock>
+                    <TextBlock FontWeight="Bold" TextWrapping="Wrap"><Run Text="Wybierz czujniki"/></TextBlock>
                     <StackPanel Margin="0,10" x:Name="SensorList2"/>
                     <!-- <TextBlock FontWeight="Bold" Margin="0,10" TextWrapping="Wrap"><Run Language="pl-pl" Text="Zmień zakres wykresu:"/></TextBlock>
                         <Grid>
@@ -175,7 +175,8 @@
                     <lvc:CartesianChart
                             Series="{Binding Series}"
                             XAxes="{Binding XAxes}"
-                            YAxes="{Binding YAxes}"/>
+                            YAxes="{Binding YAxes}"
+                            ZoomMode="X"/>
                 </Grid>
             </Grid>
         </TabItem>

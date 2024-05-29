@@ -243,7 +243,7 @@ namespace CTP
             catch (Exception ex)
             {
                 // Log the exception and show a message
-                MessageBox.Show("An error occurred while rendering UIElement to PDF: " + ex.Message);
+                Trace.WriteLine("An error occurred while rendering UIElement to PDF: " + ex.Message);
             }
 
         }

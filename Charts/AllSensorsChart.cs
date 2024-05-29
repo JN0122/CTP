@@ -28,7 +28,7 @@ public partial class AllSensorsChart: ObservableObject
         }
 
         XAxes = new[] { new Axis() { Name = "Czas [s]"} };
-        YAxes = new[] { new Axis() { Name = "Prędkość obrotowa [obr/min]" } };
+        YAxes = new[] { new Axis() { Name = "x [mm]" } };
     }
 
     static ISeries CreateSeries(ObservableCollection<ObservablePoint>  _seriesValues)
