@@ -53,11 +53,14 @@ namespace CTP.core
             List<float> Values = new();
             float scale = calculateScale(_ColumnsList[ColumnIndex]);
             string ColumnName = this.Table.Columns[ColumnIndex].ColumnName;
+            float Value;
 
             foreach (DataRow Row in this.Table.Rows)
             {
-                Trace.WriteLine((float)Row[ColumnName]);
-                Row[ColumnName] = (float)Row[ColumnName] * scale;
+                Value = (float)Row[ColumnName] * scale;
+                if (Value > _ColumnsList[ColumnIndex].Mmax) Value = _ColumnsList[ColumnIndex].Mmax;
+                if (Value < _ColumnsList[ColumnIndex].Mmin) Value = _ColumnsList[ColumnIndex].Mmin;
+                Row[ColumnName] = Value;
                 Values.Add((float)Row[ColumnName]);
             }
             return Values;
