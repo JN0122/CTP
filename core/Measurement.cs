@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
@@ -75,7 +76,7 @@ namespace CTP.core
             foreach (DataRow Row in newTable.Rows)
             {
                 int index = newTable.Rows.IndexOf(Row);
-                Values.Add(CalculateVelocity(index));
+                Values.Add(CalculateVelocity(index, ColumnIndex));
             }
             return Values;
         }
@@ -93,12 +94,12 @@ namespace CTP.core
             foreach (DataRow Row in newTable.Rows)
             {
                 int index = newTable.Rows.IndexOf(Row);
-                Values.Add(CalculateAcceleration(index));
+                Values.Add(CalculateAcceleration(index, ColumnIndex));
             }
             return Values;
         }
 
-        public float CalculateVelocity(int index)
+        public float CalculateVelocity(int index , int ColumnIndex)
         {
             double[] xValues = new double[10];
             double[] yValues = new double[10];
@@ -115,7 +116,7 @@ namespace CTP.core
                 else
                 {
                     yValues[i] = Table.Rows[index + offset].Field<Single>(0);
-                    xValues[i] = Table.Rows[index + offset].Field<Single>(1);
+                    xValues[i] = Table.Rows[index + offset].Field<Single>(ColumnIndex);
                 }
 
                 offset++;
@@ -124,7 +125,7 @@ namespace CTP.core
             return Reglinp.FitLine(yValues, xValues);
         }
 
-        public float CalculateAcceleration(int index)
+        public float CalculateAcceleration(int index, int ColumnIndex)
         {
             double[] xValues = new double[10];
             double[] yValues = new double[10];
@@ -141,7 +142,7 @@ namespace CTP.core
                 else
                 {
                     yValues[i] = Table.Rows[index + offset].Field<Single>(0);
-                    xValues[i] = CalculateVelocity(index + offset);
+                    xValues[i] = CalculateVelocity(index + offset, ColumnIndex);
                 }
 
                 offset++;
