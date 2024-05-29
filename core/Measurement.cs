@@ -75,7 +75,7 @@ namespace CTP.core
 
             foreach (DataRow Row in newTable.Rows)
             {
-                int index = Table.Rows.IndexOf(Row);
+                int index = newTable.Rows.IndexOf(Row);
                 Values.Add(CalculateVelocity(index, ColumnIndex));
             }
             return Values;
@@ -93,7 +93,7 @@ namespace CTP.core
 
             foreach (DataRow Row in newTable.Rows)
             {
-                int index = Table.Rows.IndexOf(Row);
+                int index = newTable.Rows.IndexOf(Row);
                 Values.Add(CalculateAcceleration(index, ColumnIndex));
             }
             return Values;
